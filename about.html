@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — SHS Enterprises | Karachi's Full-Time Fashion Manufacturing Partner</title>
+<meta name="description" content="SHS Enterprises' co-founders work on this full-time — not a side job. Learn why that changes everything for the fashion brands who trust us with their manufacturing and growth.">
+<link rel="canonical" href="https://shs-enterprises.com/about.html">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta property="og:title" content="About SHS Enterprises — Full-Time, Fully Committed">
+<meta property="og:description" content="While other low-MOQ manufacturers treat this as a side hustle, SHS Enterprises' co-founders do this and only this — 24/7.">
+<meta property="og:image" content="https://shs-enterprises.com/assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About SHS Enterprises",
+  "url": "https://shs-enterprises.com/about.html",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "SHS Enterprises",
+    "foundingLocation": "Karachi, Pakistan",
+    "description": "Low-MOQ clothing manufacturer and full brand growth system for early and growth-stage fashion brands."
+  }
+}
+</script>
+<style>
+  :root{
+    --ink:#0A0A0A; --navy:#0D1B2A; --paper:#FAFAFA; --paper-dim:#F1EEE9;
+    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --stone-light:#C9C0B2;
+    --line: rgba(10,10,10,0.10); --line-dark: rgba(250,250,250,0.14);
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  .font-display{font-family:'Fraunces',serif;}
+  .font-mono{font-family:'JetBrains Mono',monospace;}
+  .muted{color:var(--stone);}
+  .eyebrow{font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:500;}
+  .nav-blur{backdrop-filter:blur(14px); background:rgba(250,250,250,0.85);}
+  .dark-section{background:linear-gradient(160deg, var(--red-deep), var(--ink)); color:var(--paper); position:relative;}
+  .dark-section .muted{color:var(--stone-light);}
+  .section-fade-bottom::after{
+    content:''; position:absolute; left:0; right:0; bottom:0; height:90px;
+    background:linear-gradient(to bottom, transparent, var(--paper)); pointer-events:none;
+  }
+  .section-fade-top::before{
+    content:''; position:absolute; left:0; right:0; top:0; height:90px;
+    background:linear-gradient(to top, transparent, var(--paper)); pointer-events:none;
+  }
+  .navy-accent{background:linear-gradient(160deg, var(--navy), var(--ink)); color:var(--paper); position:relative;}
+  .navy-accent .muted{color:var(--stone-light);}
+  .btn-primary{ background:linear-gradient(135deg, var(--red), var(--red-deep)); color:var(--paper); border-radius:999px; padding:0.9rem 1.9rem; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.5rem; transition:all .35s ease; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -10px rgba(201,2,1,0.55); background:linear-gradient(135deg, var(--red-deep), var(--red)); }
+  .icon-badge{ width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; background:var(--paper-dim); border:1px solid var(--line); }
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .grain{
+    position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .story-icon{ width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--paper-dim); border:1px solid var(--line); flex-shrink:0; }
+
+  /* Mobile navigation */
+  .hamburger{ display:none; flex-direction:column; gap:5px; width:28px; cursor:pointer; background:none; border:none; padding:0; z-index:60; }
+  .hamburger span{ display:block; height:2px; width:100%; background:currentColor; border-radius:2px; transition:transform .3s ease, opacity .3s ease; }
+  .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{
+    position:fixed; top:0; right:0; bottom:0; z-index:70;
+    width:280px; max-width:80vw;
+    transform:translateX(100%); transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    background:var(--ink); padding-top:100px; overflow-y:auto;
+    box-shadow:-10px 0 40px -10px rgba(0,0,0,0.5);
+  }
+  .mobile-menu.open{ transform:translateX(0); }
+  .mobile-menu-inner{ padding:1.5rem 2rem 2rem; display:flex; flex-direction:column; gap:1.4rem; }
+  .mobile-menu-inner a{ font-size:1.1rem; font-weight:500; color:var(--paper); }
+  @media (max-width: 767px){
+    .hamburger{ display:flex; }
+  }
+
+  header{ transition:transform .3s ease; }
+  header.header-hidden{ transform:translateY(-100%); }
+</style>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line-dark);">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="index.html"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="index.html" class="hover:text-[var(--red)]">Home</a>
+      <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
+      <a href="services.html" class="hover:text-[var(--red)]">Services</a>
+      <a href="about.html" style="color:var(--gold)">About</a>
+      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+    </nav>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="btn-primary hidden md:inline-flex !py-2.5 !px-5 !text-[0.85rem]">Schedule a Meeting</a>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <a href="index.html">Home</a>
+    <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
+      <a href="services.html" class="hover:text-[var(--red)]">Services</a>
+      <a href="about.html" style="color:var(--gold)">About</a>
+      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+  </div>
+</div>
+
+<!-- Bold opening line -->
+<section class="pt-40 pb-16 px-6 md:px-10 dark-section section-fade-bottom relative overflow-hidden">
+  <div class="grain"></div>
+  <div class="max-w-4xl mx-auto text-center relative">
+    <p class="eyebrow reveal mb-6" style="color:var(--gold)">About SHS Enterprises</p>
+    <h1 class="reveal font-display text-3xl md:text-5xl leading-[1.25]">
+      Our co-founders do <span style="color:var(--ink); background:var(--gold); padding:0 6px; border-radius:4px;">no other jobs</span>. They have committed themselves entirely to one cause: seeing every fashion brand they work with transform into a successful retail empire of tomorrow.
+    </h1>
+  </div>
+</section>
+
+<!-- Story, each paragraph with its own icon -->
+<section class="py-20 md:py-28 px-6 md:px-10">
+  <div class="max-w-3xl mx-auto space-y-10">
+
+    <p class="reveal font-display text-2xl md:text-3xl leading-snug">
+      The greatest loss in the fashion industry isn't a failed product. It's a failed dream.
+    </p>
+
+    <div class="reveal flex gap-5 items-start">
+      <div class="story-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.7"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
+      <p class="muted text-lg leading-relaxed">
+        Every year, ambitious online fashion brands enter the market with real creativity and real determination — and most don't survive long enough to become sustainable businesses. Rarely is that because the idea was weak. It's almost always avoidable: bad decisions made without guidance, unreliable manufacturing partners, and no strategic support during the exact stages that decide whether a brand lives or dies.
+      </p>
+    </div>
+
+    <div class="reveal flex gap-5 items-start">
+      <div class="story-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.7"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14"/></svg></div>
+      <p class="muted text-lg leading-relaxed">
+        Here's what that actually costs a brand that doesn't choose a partner like SHS: months lost to trial-and-error pricing, inventory sitting unsold because no one flagged a shifting trend in time, margin quietly bleeding out of every production run, and — most often — a founder who ran out of belief before they ran out of potential.
+      </p>
+    </div>
+
+    <div class="reveal flex gap-5 items-start">
+      <div class="story-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <p class="muted text-lg leading-relaxed">
+        SHS Enterprises exists because we saw a responsibility too many manufacturers left unfulfilled. While other low-MOQ manufacturers in Pakistan often run this as a side hustle — teaching at a university, working full-time in another industry — <strong style="color:var(--ink);">our founders do this and only this.</strong> Not because it's convenient. Because we love it, and because a brand that trusts us deserves a partner who's actually present — 24/7, not "when there's time."
+      </p>
+    </div>
+
+    <div class="reveal flex gap-5 items-start">
+      <div class="story-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.7"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <p class="muted text-lg leading-relaxed">
+        Every brand we work with builds a relationship with us based on mutual respect, real conversation, and — genuinely — some fun in discussing where global fashion is heading and where Pakistan's apparel industry fits into it. We identify the gaps together and move to fill them faster than anyone else will.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Vision & Mission -->
+<section class="py-20 md:py-28 px-6 md:px-10" style="background:var(--paper-dim);">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
+    <div class="reveal rounded-2xl p-9 border" style="background:#fff; border-color:var(--line);">
+      <div class="icon-badge mb-5">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <p class="eyebrow mb-3" style="color:var(--gold)">Vision</p>
+      <p class="text-lg leading-relaxed">
+        To build an integrated system for the global apparel industry that turns early-stage online fashion brands into sustainable, profitable retail businesses — recognised not just for what they sell, but for the experience they create.
+      </p>
+    </div>
+    <div class="reveal rounded-2xl p-9 border" style="background:#fff; border-color:var(--line);">
+      <div class="icon-badge mb-5">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M13 2L3 14h7l-1 8 11-14h-7l1-6z"/></svg>
+      </div>
+      <p class="eyebrow mb-3" style="color:var(--gold)">Mission</p>
+      <p class="text-lg leading-relaxed">
+        To make that transformation attainable by doing 80% of the homework a fashion brand shouldn't have to do alone. You bring the creativity. We teach you the business. Together, we turn a few thousand dollars today into a multimillion-dollar retail empire tomorrow.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Trustable shoulders -->
+<section class="py-20 md:py-28 px-6 md:px-10">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="reveal icon-badge mx-auto mb-6" style="background:var(--ink);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+    </div>
+    <p class="reveal eyebrow mb-5" style="color:var(--gold)">Your Trustable Shoulders</p>
+    <h2 class="reveal font-display text-3xl md:text-4xl leading-tight mb-6">We measure success in brands, not production orders.</h2>
+    <p class="reveal muted text-lg leading-relaxed">
+      Our purpose extends beyond manufacturing apparel. We aspire to be the partner ambitious fashion entrepreneurs trust at the earliest stage of their journey, and keep relying on as they grow. Our greatest ambition is simple: to see today's emerging fashion brands become tomorrow's industry leaders.
+    </p>
+  </div>
+</section>
+
+<!-- Sponsorships -->
+<section class="py-20 md:py-28 px-6 md:px-10 navy-accent section-fade-bottom section-fade-top">
+  <div class="max-w-2xl mx-auto text-center relative">
+    <p class="reveal eyebrow mb-5" style="color:var(--gold)">Sponsorships</p>
+    <h2 class="reveal font-display text-3xl md:text-5xl leading-tight mb-8">We are proud to sponsor TEDxLyari in 2025.</h2>
+    <img class="reveal mx-auto h-20 w-auto object-contain mb-10 rounded-lg" src="assets/client-logos/sponsored-tedxlyari-logo.jpg" alt="TEDxLyari logo — sponsored by SHS Enterprises">
+
+    <div class="reveal flex justify-center mb-10">
+      <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DQypZ-MDDlt/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+        <div style="padding:16px;">
+          <a href="https://www.instagram.com/p/DQypZ-MDDlt/?utm_source=ig_embed&utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
+            View this post on Instagram
+          </a>
+        </div>
+      </blockquote>
+    </div>
+
+    <p class="reveal muted leading-relaxed">
+      For future sponsorships and collaborations, contact us at <a href="mailto:shs.enterprises.pk@gmail.com" style="color:var(--gold);">shs.enterprises.pk@gmail.com</a>.
+    </p>
+  </div>
+</section>
+<script async src="//www.instagram.com/embed.js"></script>
+
+<footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
+    <div>
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">
+      <div>
+        <p class="font-semibold mb-3">Company</p>
+        <ul class="space-y-2 muted">
+          <li><a href="index.html" class="hover:text-[var(--red)]">Home</a></li>
+          <li><a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a></li>
+          <li><a href="contact.html" class="hover:text-[var(--red)]">Contact</a></li>
+        <li><a href="policies.html" class="hover:text-[var(--red)]">Policies</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-3">Connect</p>
+        <ul class="space-y-2 muted">
+          <li><a href="https://www.instagram.com/shs.clothingmanufacturers/" class="hover:text-[var(--red)]">Instagram</a></li>
+          <li><a href="https://www.facebook.com/shsclothingmanufacturers" class="hover:text-[var(--red)]">Facebook</a></li>
+          <li><a href="https://pk.linkedin.com/company/shs-enterprises-apparel-manufacturing" class="hover:text-[var(--red)]">LinkedIn</a></li>
+          <li><a href="https://www.youtube.com/channel/UC8FAR87_4C0blSX-GUqddjA" class="hover:text-[var(--red)]">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/@shs.apparelsourcing" class="hover:text-[var(--red)]">TikTok</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-3">Sponsorships</p>
+        <p class="muted text-sm">For sponsorships & collaborations: <a href="mailto:shs.enterprises.pk@gmail.com" class="hover:text-[var(--red)]">shs.enterprises.pk@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto mt-14 pt-8 border-t text-xs muted" style="border-color:var(--line-dark);">© <span id="year"></span> SHS Enterprises. All rights reserved. Karachi, Pakistan</div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+</script>
+<script>
+(function(){
+  const btn = document.getElementById('hamburgerBtn');
+  const menu = document.getElementById('mobileMenu');
+  if(!btn || !menu) return;
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+  }));
+})();
+</script>
+<script>
+// Auto-hide header on scroll down, reveal on scroll up — mobile only, to maximize screen space
+(function(){
+  const header = document.querySelector('header');
+  if(!header) return;
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    if(window.innerWidth > 767) { header.classList.remove('header-hidden'); return; }
+    const current = window.scrollY;
+    if(current > lastScroll && current > 120){
+      header.classList.add('header-hidden');
+    } else {
+      header.classList.remove('header-hidden');
+    }
+    lastScroll = current <= 0 ? 0 : current;
+  }, { passive:true });
+})();
+</script>
+</body>
+</html>

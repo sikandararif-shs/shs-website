@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Manufacturing & Brand Growth Support | SHS Enterprises Karachi</title>
+<meta name="description" content="Full-service low-MOQ manufacturing and free brand growth support for fashion startups: trend analysis, pricing strategy, marketing, budget optimization, launch and sales strategy.">
+<link rel="canonical" href="https://shs-enterprises.com/services.html">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta property="og:title" content="Services — SHS Enterprises">
+<meta property="og:description" content="Manufacturing is what we charge for. Everything else — strategy, positioning, marketing — is free.">
+<meta property="og:image" content="https://shs-enterprises.com/assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Apparel Manufacturing & Fashion Brand Growth Strategy",
+  "provider": { "@type": "Organization", "name": "SHS Enterprises", "areaServed": "Pakistan" },
+  "description": "Low-MOQ clothing manufacturing paired with free trend analysis, pricing strategy, marketing, budget optimization, launch and sales strategy for early-stage fashion brands."
+}
+</script>
+<style>
+  :root{
+    --ink:#0A0A0A; --navy:#0D1B2A; --paper:#FAFAFA; --paper-dim:#F1EEE9;
+    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --stone-light:#C9C0B2;
+    --line: rgba(10,10,10,0.10); --line-dark: rgba(250,250,250,0.14);
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  .font-display{font-family:'Fraunces',serif;}
+  .font-mono{font-family:'JetBrains Mono',monospace;}
+  .muted{color:var(--stone);}
+  .eyebrow{font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:500;}
+  .nav-blur{backdrop-filter:blur(14px); background:rgba(250,250,250,0.85);}
+  .btn-primary{ background:linear-gradient(135deg, var(--red), var(--red-deep)); color:var(--paper); border-radius:999px; padding:0.9rem 1.9rem; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.5rem; transition:all .35s ease; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -10px rgba(201,2,1,0.55); background:linear-gradient(135deg, var(--red-deep), var(--red)); }
+
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  .timeline-line{ position:absolute; left:35px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, transparent, var(--line) 5%, var(--line) 95%, transparent); }
+  .icon-node{
+    width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--paper-dim); border:2px solid var(--line); flex-shrink:0; position:relative; z-index:2;
+    transition:border-color .4s ease, transform .4s ease, box-shadow .4s ease;
+  }
+  .service-row.in .icon-node{ border-color:var(--red); box-shadow:0 10px 30px -10px rgba(201,2,1,0.3); }
+  .service-row{ position:relative; }
+  .grain{
+    position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .dark-section{background:linear-gradient(160deg, var(--red-deep), var(--ink)); color:var(--paper); position:relative;}
+  .dark-section .muted{color:var(--stone-light);}
+  .section-fade-bottom::after{
+    content:''; position:absolute; left:0; right:0; bottom:0; height:90px;
+    background:linear-gradient(to bottom, transparent, var(--paper)); pointer-events:none;
+  }
+  .section-fade-top::before{
+    content:''; position:absolute; left:0; right:0; top:0; height:90px;
+    background:linear-gradient(to top, transparent, var(--paper)); pointer-events:none;
+  }
+
+  /* Mobile navigation */
+  .hamburger{ display:none; flex-direction:column; gap:5px; width:28px; cursor:pointer; background:none; border:none; padding:0; z-index:60; }
+  .hamburger span{ display:block; height:2px; width:100%; background:currentColor; border-radius:2px; transition:transform .3s ease, opacity .3s ease; }
+  .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{
+    position:fixed; top:0; right:0; bottom:0; z-index:70;
+    width:280px; max-width:80vw;
+    transform:translateX(100%); transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    background:var(--ink); padding-top:100px; overflow-y:auto;
+    box-shadow:-10px 0 40px -10px rgba(0,0,0,0.5);
+  }
+  .mobile-menu.open{ transform:translateX(0); }
+  .mobile-menu-inner{ padding:1.5rem 2rem 2rem; display:flex; flex-direction:column; gap:1.4rem; }
+  .mobile-menu-inner a{ font-size:1.1rem; font-weight:500; color:var(--paper); }
+  @media (max-width: 767px){
+    .hamburger{ display:flex; }
+  }
+
+  header{ transition:transform .3s ease; }
+  header.header-hidden{ transform:translateY(-100%); }
+</style>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="index.html"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="index.html" class="hover:text-[var(--red)]">Home</a>
+      <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
+      <a href="services.html" style="color:var(--gold)">Services</a>
+      <a href="about.html" class="hover:text-[var(--red)]">About</a>
+      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+    </nav>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="btn-primary hidden md:inline-flex !py-2.5 !px-5 !text-[0.85rem]">Schedule a Meeting</a>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <a href="index.html">Home</a>
+    <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
+      <a href="services.html" style="color:var(--gold)">Services</a>
+      <a href="about.html" class="hover:text-[var(--red)]">About</a>
+      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+  </div>
+</div>
+
+<section class="pt-40 pb-16 px-6 md:px-10">
+  <div class="max-w-4xl mx-auto">
+    <p class="eyebrow reveal mb-5" style="color:var(--gold)">Full Service Range</p>
+    <h1 class="reveal font-display text-4xl md:text-6xl leading-tight mb-6">We only charge for manufacturing. Everything else is free.</h1>
+    <p class="reveal muted text-lg leading-relaxed">
+      Most manufacturers offer one service: production. SHS Enterprises was built as a complete operating system for early and growth-stage fashion brands — manufacturing is the only line item you'll ever see on an invoice. Scroll through to see everything included.
+    </p>
+  </div>
+</section>
+
+<!-- Scroll-revealed timeline of services, each with its own icon -->
+<section class="pb-20 px-6 md:px-10">
+  <div class="max-w-4xl mx-auto relative pl-24">
+    <div class="timeline-line"></div>
+    <div id="serviceTimeline" class="space-y-20">
+      <div class="service-row reveal flex gap-8 items-start">
+      <div class="icon-node absolute -left-24">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21h12M8 21V9a4 4 0 018 0v12M12 3v2"/><circle cx="12" cy="6" r="1"/></svg>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl md:text-3xl mb-3">Low-MOQ Manufacturing</h2>
+        <p class="muted leading-relaxed max-w-xl">As a low-MOQ clothing manufacturer in Karachi, SHS produces apparel runs starting from as few as 50 pieces — a fraction of the 500-1000 piece minimums most clothing factories require. We work across heavy-GSM oversized tees, ring-spun cotton polos, French terry sweats, denim, and garment-washed hoodies.</p>
+      </div>
+    </div>
+    <div class="service-row reveal flex gap-8 items-start">
+      <div class="icon-node absolute -left-24">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl md:text-3xl mb-3">Product Development & Sampling</h2>
+        <p class="muted leading-relaxed max-w-xl">Every production run starts with sampling — refined until the piece actually represents the brand, not just the spec sheet. From fabric selection to wash treatments and print techniques, our sampling process gives brands a real product to approve before full production.</p>
+      </div>
+    </div>
+    <div class="service-row reveal flex gap-8 items-start">
+      <div class="icon-node absolute -left-24">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14"/></svg>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl md:text-3xl mb-3">Trend & Audience Analysis</h2>
+        <p class="muted leading-relaxed max-w-xl">Understanding what an audience actually wants — before budget is committed to producing it — is the single biggest gap between brands that survive and brands that don't. SHS runs trend and demand research ahead of every production decision.</p>
+      </div>
+    </div>
+    <div class="service-row reveal flex gap-8 items-start">
+      <div class="icon-node absolute -left-24">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl md:text-3xl mb-3">Budget Allocation & Pricing Strategy</h2>
+        <p class="muted leading-relaxed max-w-xl">Most early-stage brands lose margin not on the factory floor, but in how budget is split across production, marketing, and inventory. SHS structures spend and pricing so each collection protects margin instead of quietly leaking it.</p>
+      </div>
+    </div>
+    <div class="service-row reveal flex gap-8 items-start">
+      <div class="icon-node absolute -left-24">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl md:text-3xl mb-3">Marketing & Brand Positioning</h2>
+        <p class="muted leading-relaxed max-w-xl">A well-manufactured garment still fails commercially if the brand around it isn't positioned clearly. SHS works with brands on how they're perceived in the market before a single ad is ever run.</p>
+      </div>
+    </div>
+    <div class="service-row reveal flex gap-8 items-start">
+      <div class="icon-node absolute -left-24">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl md:text-3xl mb-3">Launch & Sales Strategy</h2>
+        <p class="muted leading-relaxed max-w-xl">A launch isn't a single day — it's a plan for the first 30, 60, and 90 days after a collection drops. SHS builds that plan alongside the brand, covering sales channels, timing, and the follow-through most brands skip.</p>
+      </div>
+    </div>
+    <div class="service-row reveal flex gap-8 items-start">
+      <div class="icon-node absolute -left-24">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl md:text-3xl mb-3">3-Layer Quality Control</h2>
+        <p class="muted leading-relaxed max-w-xl">Every production run passes through three independent checks: the floor incharge on the line, a personal inspection by one of SHS's co-founders, and full visibility for the client to run their own QC. Standard on every order, regardless of size.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Case studies -->
+<section class="py-24 px-6 md:px-10 dark-section section-fade-bottom section-fade-top relative overflow-hidden">
+  <div class="grain"></div>
+  <div class="max-w-5xl mx-auto relative">
+    <p class="eyebrow reveal mb-5" style="color:var(--gold)">In Practice</p>
+    <h2 class="reveal font-display text-3xl md:text-4xl mb-12">What this looks like for a real brand.</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="reveal rounded-2xl p-8" style="background:rgba(250,250,250,0.05); border:1px solid var(--line-dark);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" class="mb-4"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        <p class="eyebrow mb-3 muted">Streetwear Label</p>
+        <p class="text-sm muted leading-relaxed">A new streetwear brand came to SHS with just a concept for an oversized tee line. SHS handled trend research, fabric sourcing, sampling, and a low-MOQ first run — the brand's first collection launched without a warehouse full of unsold stock.</p>
+      </div>
+      <div class="reveal rounded-2xl p-8" style="background:rgba(250,250,250,0.05); border:1px solid var(--line-dark);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" class="mb-4"><path d="M13 2L3 14h7l-1 8 11-14h-7l1-6z"/></svg>
+        <p class="eyebrow mb-3 muted">Activewear Brand</p>
+        <p class="text-sm muted leading-relaxed">An activewear label needed performance-fabric manufacturing without a bulk order commitment. SHS's low-MOQ model let them test their first line at a fraction of a typical factory's minimum.</p>
+      </div>
+      <div class="reveal rounded-2xl p-8" style="background:rgba(250,250,250,0.05); border:1px solid var(--line-dark);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" class="mb-4"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+        <p class="eyebrow mb-3 muted">Kidswear Label</p>
+        <p class="text-sm muted leading-relaxed">A kidswear brand needed comfort-first fabric selection and consistent QC across a small first run. SHS's 3-layer quality process gave the brand confidence before their first public launch.</p>
+      </div>
+    </div>
+    <p class="text-xs muted mt-8 font-mono reveal">Illustrative examples based on the types of brands SHS works with. Ask us for specific references on your strategy call.</p>
+  </div>
+</section>
+
+<section class="py-24 px-6 md:px-10 text-center">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="reveal font-display text-3xl md:text-4xl mb-6">See where your margin is leaking.</h2>
+    <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="reveal btn-primary text-base !px-10 !py-4">Schedule a Meeting →</a>
+  </div>
+</section>
+
+<footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
+    <div>
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">
+      <div>
+        <p class="font-semibold mb-3">Company</p>
+        <ul class="space-y-2 muted">
+          <li><a href="about.html" class="hover:text-[var(--red)]">About Us</a></li>
+          <li><a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a></li>
+          <li><a href="contact.html" class="hover:text-[var(--red)]">Contact</a></li>
+        <li><a href="policies.html" class="hover:text-[var(--red)]">Policies</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-3">Connect</p>
+        <ul class="space-y-2 muted">
+          <li><a href="https://www.instagram.com/shs.clothingmanufacturers/" class="hover:text-[var(--red)]">Instagram</a></li>
+          <li><a href="https://www.facebook.com/shsclothingmanufacturers" class="hover:text-[var(--red)]">Facebook</a></li>
+          <li><a href="https://pk.linkedin.com/company/shs-enterprises-apparel-manufacturing" class="hover:text-[var(--red)]">LinkedIn</a></li>
+          <li><a href="https://www.youtube.com/channel/UC8FAR87_4C0blSX-GUqddjA" class="hover:text-[var(--red)]">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/@shs.apparelsourcing" class="hover:text-[var(--red)]">TikTok</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-3">Sponsorships</p>
+        <p class="muted text-sm">For sponsorships & collaborations: <a href="mailto:shs.enterprises.pk@gmail.com" class="hover:text-[var(--red)]">shs.enterprises.pk@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto mt-14 pt-8 border-t text-xs muted" style="border-color:var(--line);">© <span id="year"></span> SHS Enterprises. All rights reserved. Karachi, Pakistan</div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Service cards are now static HTML (for crawlability) — nothing to build here.
+
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+</script>
+<script>
+(function(){
+  const btn = document.getElementById('hamburgerBtn');
+  const menu = document.getElementById('mobileMenu');
+  if(!btn || !menu) return;
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+  }));
+})();
+</script>
+<script>
+// Auto-hide header on scroll down, reveal on scroll up — mobile only, to maximize screen space
+(function(){
+  const header = document.querySelector('header');
+  if(!header) return;
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    if(window.innerWidth > 767) { header.classList.remove('header-hidden'); return; }
+    const current = window.scrollY;
+    if(current > lastScroll && current > 120){
+      header.classList.add('header-hidden');
+    } else {
+      header.classList.remove('header-hidden');
+    }
+    lastScroll = current <= 0 ? 0 : current;
+  }, { passive:true });
+})();
+</script>
+</body>
+</html>

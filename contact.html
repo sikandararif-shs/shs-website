@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — SHS Enterprises | Clothing Manufacturer in Karachi</title>
+<meta name="description" content="Get in touch with SHS Enterprises for low-MOQ clothing manufacturing and brand growth support in Karachi, Pakistan. Book a call or send us your brand's details directly.">
+<link rel="canonical" href="https://shs-enterprises.com/contact.html">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta property="og:title" content="Contact SHS Enterprises">
+<meta property="og:description" content="Tell us about your brand — we'll tell you exactly where the leak is.">
+<meta property="og:image" content="https://shs-enterprises.com/assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "url": "https://shs-enterprises.com/contact.html",
+  "about": { "@type": "Organization", "name": "SHS Enterprises", "email": "shs.enterprises.pk@gmail.com" }
+}
+</script>
+<style>
+  :root{
+    --ink:#0A0A0A; --navy:#0D1B2A; --paper:#FAFAFA; --paper-dim:#F1EEE9;
+    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --stone-light:#C9C0B2;
+    --line: rgba(10,10,10,0.10); --line-dark: rgba(250,250,250,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
+  .font-display{font-family:'Fraunces',serif;}
+  .font-mono{font-family:'JetBrains Mono',monospace;}
+  .muted{color:var(--stone);}
+  .eyebrow{font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:500;}
+  .nav-blur{backdrop-filter:blur(14px); background:rgba(250,250,250,0.85);}
+  .btn-primary{ background:linear-gradient(135deg, var(--red), var(--red-deep)); color:var(--paper); border-radius:999px; padding:0.9rem 1.9rem; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.5rem; transition:all .35s ease; border:none; cursor:pointer; width:100%; justify-content:center;}
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -10px rgba(201,2,1,0.55); background:linear-gradient(135deg, var(--red-deep), var(--red)); }
+  .btn-primary:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
+  input, select, textarea{
+    width:100%; border:1px solid var(--line); border-radius:10px; padding:0.8rem 1rem;
+    font-family:'Inter',sans-serif; font-size:0.95rem; background:#fff; color:var(--ink); transition:border-color .2s ease;
+  }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--red); }
+  label{ font-size:0.85rem; font-weight:600; margin-bottom:0.4rem; display:block; color:var(--paper); }
+  .field-hidden{ display:none; }
+
+  .form-navy{
+    background:linear-gradient(160deg, var(--navy), var(--ink)); color:var(--paper); position:relative; overflow:hidden;
+  }
+  .form-starfield{
+    position:absolute; inset:0; pointer-events:none;
+    background-image:
+      radial-gradient(1.5px 1.5px at 10% 20%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 25% 65%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 40% 15%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 70% 35%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 15% 85%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 90% 90%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 33% 45%, rgba(255,255,255,0.5), transparent);
+    background-repeat:repeat; background-size:180px 180px; opacity:0.35;
+  }
+  .form-navy #formStatus{ color:var(--paper); }
+
+  /* Mobile navigation */
+  .hamburger{ display:none; flex-direction:column; gap:5px; width:28px; cursor:pointer; background:none; border:none; padding:0; z-index:60; }
+  .hamburger span{ display:block; height:2px; width:100%; background:currentColor; border-radius:2px; transition:transform .3s ease, opacity .3s ease; }
+  .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{
+    position:fixed; top:0; right:0; bottom:0; z-index:70;
+    width:280px; max-width:80vw;
+    transform:translateX(100%); transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    background:var(--ink); padding-top:100px; overflow-y:auto;
+    box-shadow:-10px 0 40px -10px rgba(0,0,0,0.5);
+  }
+  .mobile-menu.open{ transform:translateX(0); }
+  .mobile-menu-inner{ padding:1.5rem 2rem 2rem; display:flex; flex-direction:column; gap:1.4rem; }
+  .mobile-menu-inner a{ font-size:1.1rem; font-weight:500; color:var(--paper); }
+  @media (max-width: 767px){
+    .hamburger{ display:flex; }
+  }
+
+  header{ transition:transform .3s ease; }
+  header.header-hidden{ transform:translateY(-100%); }
+</style>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="index.html"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="index.html" class="hover:text-[var(--red)]">Home</a>
+      <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
+      <a href="services.html" class="hover:text-[var(--red)]">Services</a>
+      <a href="about.html" class="hover:text-[var(--red)]">About</a>
+      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact.html" style="color:var(--red)">Contact</a>
+    </nav>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="btn-primary hidden md:inline-flex !py-2.5 !px-5 !text-[0.85rem] !w-auto">Schedule a Meeting</a>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <a href="index.html">Home</a>
+    <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
+      <a href="services.html" class="hover:text-[var(--red)]">Services</a>
+      <a href="about.html" class="hover:text-[var(--red)]">About</a>
+      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact.html" style="color:var(--red)">Contact</a>
+  </div>
+</div>
+
+<section class="pt-40 pb-16 px-6 md:px-10">
+  <div class="max-w-4xl mx-auto">
+    <p class="eyebrow mb-5" style="color:var(--red)">Contact</p>
+    <h1 class="font-display text-4xl md:text-6xl leading-tight mb-6">Tell us about your brand.</h1>
+    <p class="text-lg muted leading-relaxed max-w-2xl">
+      Whether you're ready for a production run or still shaping the concept, this is the fastest way to reach us directly.
+    </p>
+  </div>
+</section>
+
+<section class="pb-24 px-6 md:px-10">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+
+    <!-- Lead form -->
+    <div>
+      <form id="leadForm" class="rounded-2xl p-8 border form-navy" style="border-color:var(--line);">
+        <div class="form-starfield"></div>
+        <div class="relative space-y-5" style="z-index:1;">
+        <div>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+          <label for="brandName">Brand Name</label>
+          <input type="text" id="brandName" name="brandName" required>
+        </div>
+        <div>
+          <label for="reason">Tell us everything you want SHS to help you with</label>
+          <textarea id="reason" name="reason" rows="4" required></textarea>
+        </div>
+        <div>
+          <label for="contactPreference">How do you want us to contact you?</label>
+          <select id="contactPreference" name="contactPreference" required>
+            <option value="">Select an option</option>
+            <option value="Call Me">Call Me</option>
+            <option value="Email Me">Email Me</option>
+          </select>
+        </div>
+        <div id="phoneField" class="field-hidden">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+92...">
+        </div>
+        <button type="submit" class="btn-primary" id="submitBtn">Send Message →</button>
+        <p id="formStatus" class="text-sm text-center"></p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Map + socials -->
+    <div class="space-y-8">
+      <div class="rounded-2xl overflow-hidden border" style="border-color:var(--line); height:320px;">
+        <iframe
+          src="https://www.google.com/maps?q=SHS+Enterprises+Manufacturing+%26+Apparel+Sourcing+Karachi&output=embed"
+          width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" title="SHS Enterprises location on Google Maps">
+        </iframe>
+      </div>
+
+      <div class="rounded-2xl p-8 border" style="border-color:var(--line); background:var(--paper-dim);">
+        <p class="eyebrow mb-4" style="color:var(--red)">Follow & Connect</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="https://www.instagram.com/shs.clothingmanufacturers/" class="px-4 py-2 rounded-full bg-white border text-sm font-medium hover:border-[var(--red)] transition-colors" style="border-color:var(--line);">Instagram</a>
+          <a href="https://www.facebook.com/shsclothingmanufacturers" class="px-4 py-2 rounded-full bg-white border text-sm font-medium hover:border-[var(--red)] transition-colors" style="border-color:var(--line);">Facebook</a>
+          <a href="https://pk.linkedin.com/company/shs-enterprises-apparel-manufacturing" class="px-4 py-2 rounded-full bg-white border text-sm font-medium hover:border-[var(--red)] transition-colors" style="border-color:var(--line);">LinkedIn</a>
+          <a href="https://www.youtube.com/channel/UC8FAR87_4C0blSX-GUqddjA" class="px-4 py-2 rounded-full bg-white border text-sm font-medium hover:border-[var(--red)] transition-colors" style="border-color:var(--line);">YouTube</a>
+          <a href="https://www.tiktok.com/@shs.apparelsourcing" class="px-4 py-2 rounded-full bg-white border text-sm font-medium hover:border-[var(--red)] transition-colors" style="border-color:var(--line);">TikTok</a>
+        </div>
+      </div>
+
+      <!-- Sponsorship note, as requested -->
+      <div class="rounded-2xl p-8 border" style="border-color:var(--line);">
+        <p class="eyebrow mb-3" style="color:var(--gold)">Sponsorships & Collaborations</p>
+        <p class="muted leading-relaxed">
+          See our <a href="about.html#" style="color:var(--red);">sponsorship of TEDxLyari</a> on the About page. For future sponsorship or collaboration inquiries, email us directly at <a href="mailto:shs.enterprises.pk@gmail.com" style="color:var(--red);">shs.enterprises.pk@gmail.com</a>.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
+    <div>
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">
+      <div>
+        <p class="font-semibold mb-3">Company</p>
+        <ul class="space-y-2 muted">
+          <li><a href="index.html" class="hover:text-[var(--red)]">Home</a></li>
+          <li><a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a></li>
+          <li><a href="about.html" class="hover:text-[var(--red)]">About Us</a></li>
+        <li><a href="policies.html" class="hover:text-[var(--red)]">Policies</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-3">Connect</p>
+        <ul class="space-y-2 muted">
+          <li><a href="https://www.instagram.com/shs.clothingmanufacturers/" class="hover:text-[var(--red)]">Instagram</a></li>
+          <li><a href="https://www.facebook.com/shsclothingmanufacturers" class="hover:text-[var(--red)]">Facebook</a></li>
+          <li><a href="https://pk.linkedin.com/company/shs-enterprises-apparel-manufacturing" class="hover:text-[var(--red)]">LinkedIn</a></li>
+          <li><a href="https://www.youtube.com/channel/UC8FAR87_4C0blSX-GUqddjA" class="hover:text-[var(--red)]">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/@shs.apparelsourcing" class="hover:text-[var(--red)]">TikTok</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-3">Sponsorships</p>
+        <p class="muted text-sm">For sponsorships & collaborations: <a href="mailto:shs.enterprises.pk@gmail.com" class="hover:text-[var(--red)]">shs.enterprises.pk@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto mt-14 pt-8 border-t text-xs muted" style="border-color:var(--line);">© <span id="year"></span> SHS Enterprises. All rights reserved. Karachi, Pakistan</div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const contactPref = document.getElementById('contactPreference');
+const phoneField = document.getElementById('phoneField');
+const phoneInput = document.getElementById('phoneNumber');
+contactPref.addEventListener('change', () => {
+  if(contactPref.value === 'Call Me'){
+    phoneField.classList.remove('field-hidden');
+    phoneInput.setAttribute('required','required');
+  } else {
+    phoneField.classList.add('field-hidden');
+    phoneInput.removeAttribute('required');
+  }
+});
+
+const form = document.getElementById('leadForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
+  formStatus.textContent = '';
+
+  const payload = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    brandName: document.getElementById('brandName').value,
+    reason: document.getElementById('reason').value,
+    contactPreference: contactPref.value,
+    phoneNumber: phoneInput.value
+  };
+
+  try {
+    const res = await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if(res.ok){
+      formStatus.style.color = 'green';
+      formStatus.textContent = "Thanks — we've received your message and will be in touch shortly.";
+      form.reset();
+      phoneField.classList.add('field-hidden');
+    } else {
+      formStatus.style.color = 'var(--red)';
+      formStatus.textContent = data.error || 'Something went wrong. Please try again.';
+    }
+  } catch(err){
+    formStatus.style.color = 'var(--red)';
+    formStatus.textContent = 'Could not send — please check your connection and try again.';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Message →';
+  }
+});
+</script>
+<script>
+(function(){
+  const btn = document.getElementById('hamburgerBtn');
+  const menu = document.getElementById('mobileMenu');
+  if(!btn || !menu) return;
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+  }));
+})();
+</script>
+<script>
+// Auto-hide header on scroll down, reveal on scroll up — mobile only, to maximize screen space
+(function(){
+  const header = document.querySelector('header');
+  if(!header) return;
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    if(window.innerWidth > 767) { header.classList.remove('header-hidden'); return; }
+    const current = window.scrollY;
+    if(current > lastScroll && current > 120){
+      header.classList.add('header-hidden');
+    } else {
+      header.classList.remove('header-hidden');
+    }
+    lastScroll = current <= 0 ? 0 : current;
+  }, { passive:true });
+})();
+</script>
+</body>
+</html>
