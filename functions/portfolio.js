@@ -1,4 +1,4 @@
-// functions/portfolio.html.js
+// functions/portfolio.js
 // Serves /portfolio.html — but unlike a static file, this runs server-side on every
 // request: fetches the Portfolio table from Airtable, and bakes every image, alt text,
 // caption, and category paragraph DIRECTLY into the HTML response. This means crawlers
@@ -148,11 +148,11 @@ export async function onRequestGet(context) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfolio — Low-MOQ Clothing Manufacturing in Karachi | SHS Enterprises</title>
 <meta name="description" content="Explore SHS Enterprises' manufacturing portfolio: polos, hoodies, denim, jerseys and more — low-MOQ apparel production in Karachi for early and growth-stage fashion brands.">
-<link rel="canonical" href="https://shs-enterprises.com/portfolio.html">
+<link rel="canonical" href="https://www.shs-enterprises.com/portfolio">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <meta property="og:title" content="Portfolio — SHS Enterprises">
 <meta property="og:description" content="Low-MOQ apparel manufacturing across polos, hoodies, denim, jerseys and more — produced in Karachi.">
-<meta property="og:image" content="https://shs-enterprises.com/assets/logo.png">
+<meta property="og:image" content="https://www.shs-enterprises.com/assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -163,8 +163,8 @@ export async function onRequestGet(context) {
   "@type": "CollectionPage",
   "name": "SHS Enterprises Manufacturing Portfolio",
   "description": "Low-MOQ apparel manufacturing portfolio — polos, hoodies, denim, jerseys, tees and more, produced in Karachi, Pakistan.",
-  "url": "https://shs-enterprises.com/portfolio.html",
-  "isPartOf": { "@type": "WebSite", "name": "SHS Enterprises", "url": "https://shs-enterprises.com" }
+  "url": "https://www.shs-enterprises.com/portfolio",
+  "isPartOf": { "@type": "WebSite", "name": "SHS Enterprises", "url": "https://www.shs-enterprises.com" }
 }
 </script>
 <style>
@@ -257,16 +257,16 @@ export async function onRequestGet(context) {
 
 <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="index.html"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-      <a href="index.html" class="hover:text-[var(--red)]">Home</a>
-      <a href="portfolio.html" style="color:var(--red)">Portfolio</a>
-      <a href="services.html" class="hover:text-[var(--red)]">Services</a>
-      <a href="about.html" class="hover:text-[var(--red)]">About</a>
-      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
-      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
-      <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+      <a href="/" class="hover:text-[var(--red)]">Home</a>
+      <a href="portfolio" style="color:var(--red)">Portfolio</a>
+      <a href="services" class="hover:text-[var(--red)]">Services</a>
+      <a href="about" class="hover:text-[var(--red)]">About</a>
+      <a href="blog" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact" class="hover:text-[var(--red)]">Contact</a>
     </nav>
     <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
     <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="btn-primary hidden md:inline-flex !py-2.5 !px-5 !text-[0.85rem]">Schedule a Meeting</a>
@@ -275,13 +275,13 @@ export async function onRequestGet(context) {
 
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-inner">
-    <a href="index.html">Home</a>
-    <a href="portfolio.html" style="color:var(--red)">Portfolio</a>
-    <a href="services.html" class="hover:text-[var(--red)]">Services</a>
-    <a href="about.html" class="hover:text-[var(--red)]">About</a>
-    <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
-    <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
-    <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+    <a href="/">Home</a>
+    <a href="portfolio" style="color:var(--red)">Portfolio</a>
+    <a href="services" class="hover:text-[var(--red)]">Services</a>
+    <a href="about" class="hover:text-[var(--red)]">About</a>
+    <a href="blog" class="hover:text-[var(--red)]">Blog</a>
+    <a href="watch" class="hover:text-[var(--red)]">Watch</a>
+    <a href="contact" class="hover:text-[var(--red)]">Contact</a>
   </div>
 </div>
 
@@ -327,10 +327,10 @@ ${hallOfFameHtml}
       <div>
         <p class="font-semibold mb-3">Company</p>
         <ul class="space-y-2 muted">
-          <li><a href="about.html" class="hover:text-[var(--red)]">About Us</a></li>
-          <li><a href="index.html" class="hover:text-[var(--red)]">Home</a></li>
-          <li><a href="contact.html" class="hover:text-[var(--red)]">Contact</a></li>
-          <li><a href="policies.html" class="hover:text-[var(--red)]">Policies</a></li>
+          <li><a href="about" class="hover:text-[var(--red)]">About Us</a></li>
+          <li><a href="/" class="hover:text-[var(--red)]">Home</a></li>
+          <li><a href="contact" class="hover:text-[var(--red)]">Contact</a></li>
+          <li><a href="policies" class="hover:text-[var(--red)]">Policies</a></li>
         </ul>
       </div>
       <div>

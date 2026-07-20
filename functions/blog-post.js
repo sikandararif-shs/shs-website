@@ -1,4 +1,4 @@
-// functions/blog-post.html.js
+// functions/blog-post.js
 const BASE_ID = "applLqc9DL2932xAm";
 const TABLE_ID = "tblnpJA3AUZIpSLnz";
 
@@ -57,7 +57,7 @@ export async function onRequestGet(context) {
     <p class="muted text-sm mb-8">${formatDate(post.datePublished)}</p>
     ${post.bannerImage ? `<img src="${post.bannerImage}" alt="${esc(post.title)}" class="w-full rounded-2xl mb-10">` : ''}
     <div class="text-lg leading-relaxed">${post.contentHtml}</div>
-  ` : `<p class="text-center muted py-20">Post not found. <a href="blog.html" style="color:var(--red)">Back to Blog</a></p>`;
+  ` : `<p class="text-center muted py-20">Post not found. <a href="blog" style="color:var(--red)">Back to Blog</a></p>`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -66,6 +66,7 @@ export async function onRequestGet(context) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${post ? esc(post.title) + ' — SHS Enterprises Blog' : 'Blog — SHS Enterprises'}</title>
 <meta name="description" content="${post ? esc(post.title) : 'SHS Enterprises blog'}">
+<link rel="canonical" href="https://www.shs-enterprises.com/blog-post${slug ? '?slug=' + encodeURIComponent(slug) : ''}">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https://schema.org","@type":"BlogPosting","headline":post.title,"datePublished":post.datePublished||"","image":post.bannerImage||"","author":{"@type":"Organization","name":"SHS Enterprises"}})}</script>` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,16 +106,16 @@ ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https
 <body>
 <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="index.html"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-      <a href="index.html" class="hover:text-[var(--red)]">Home</a>
-      <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
-      <a href="services.html" class="hover:text-[var(--red)]">Services</a>
-      <a href="about.html" class="hover:text-[var(--red)]">About</a>
-      <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
-      <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
-      <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+      <a href="/" class="hover:text-[var(--red)]">Home</a>
+      <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+      <a href="services" class="hover:text-[var(--red)]">Services</a>
+      <a href="about" class="hover:text-[var(--red)]">About</a>
+      <a href="blog" class="hover:text-[var(--red)]">Blog</a>
+      <a href="watch" class="hover:text-[var(--red)]">Watch</a>
+      <a href="contact" class="hover:text-[var(--red)]">Contact</a>
     </nav>
     <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
     <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="btn-primary hidden md:inline-flex !py-2.5 !px-5 !text-[0.85rem]">Schedule a Meeting</a>
@@ -123,13 +124,13 @@ ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https
 
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-inner">
-    <a href="index.html">Home</a>
-    <a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a>
-    <a href="services.html" class="hover:text-[var(--red)]">Services</a>
-    <a href="about.html" class="hover:text-[var(--red)]">About</a>
-    <a href="blog.html" class="hover:text-[var(--red)]">Blog</a>
-    <a href="watch.html" class="hover:text-[var(--red)]">Watch</a>
-    <a href="contact.html" class="hover:text-[var(--red)]">Contact</a>
+    <a href="/">Home</a>
+    <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+    <a href="services" class="hover:text-[var(--red)]">Services</a>
+    <a href="about" class="hover:text-[var(--red)]">About</a>
+    <a href="blog" class="hover:text-[var(--red)]">Blog</a>
+    <a href="watch" class="hover:text-[var(--red)]">Watch</a>
+    <a href="contact" class="hover:text-[var(--red)]">Contact</a>
   </div>
 </div>
 <article class="pt-40 pb-24 px-6 md:px-10">
@@ -145,10 +146,10 @@ ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https
       <div>
         <p class="font-semibold mb-3">Company</p>
         <ul class="space-y-2 muted">
-          <li><a href="index.html" class="hover:text-[var(--red)]">Home</a></li>
-          <li><a href="portfolio.html" class="hover:text-[var(--red)]">Portfolio</a></li>
-          <li><a href="contact.html" class="hover:text-[var(--red)]">Contact</a></li>
-          <li><a href="policies.html" class="hover:text-[var(--red)]">Policies</a></li>
+          <li><a href="/" class="hover:text-[var(--red)]">Home</a></li>
+          <li><a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a></li>
+          <li><a href="contact" class="hover:text-[var(--red)]">Contact</a></li>
+          <li><a href="policies" class="hover:text-[var(--red)]">Policies</a></li>
         </ul>
       </div>
       <div>
