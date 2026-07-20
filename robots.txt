@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shs-enterprises.com/sitemap.xml
+Sitemap: https://www.shs-enterprises.com/sitemap.xml

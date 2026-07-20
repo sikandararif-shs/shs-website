@@ -1,0 +1,31 @@
+# Canonical domain is https://www.shs-enterprises.com — every rule below resolves
+# in a single hop directly to its final destination (no redirect chains).
+#
+# 1. Apex + old .html paths -> final www clean URL, in one hop.
+#    (Placed before the generic apex catch-all so these specific matches win first.)
+https://shs-enterprises.com/index.html https://www.shs-enterprises.com/ 301
+https://shs-enterprises.com/about.html https://www.shs-enterprises.com/about 301
+https://shs-enterprises.com/services.html https://www.shs-enterprises.com/services 301
+https://shs-enterprises.com/contact.html https://www.shs-enterprises.com/contact 301
+https://shs-enterprises.com/watch.html https://www.shs-enterprises.com/watch 301
+https://shs-enterprises.com/portfolio.html https://www.shs-enterprises.com/portfolio 301
+https://shs-enterprises.com/blog.html https://www.shs-enterprises.com/blog 301
+https://shs-enterprises.com/blog-post.html https://www.shs-enterprises.com/blog-post 301
+https://shs-enterprises.com/policies.html https://www.shs-enterprises.com/policies 301
+https://shs-enterprises.com/policy.html https://www.shs-enterprises.com/policy 301
+
+# 2. Everything else on the apex domain -> same path on www, in one hop.
+#    Catches apex/, apex/assets/*, and any apex URL not covered above.
+https://shs-enterprises.com/* https://www.shs-enterprises.com/:splat 301
+
+# 3. On www itself, old .html paths -> their clean equivalent, in one hop.
+/index.html / 301
+/about.html /about 301
+/services.html /services 301
+/contact.html /contact 301
+/watch.html /watch 301
+/portfolio.html /portfolio 301
+/blog.html /blog 301
+/blog-post.html /blog-post 301
+/policies.html /policies 301
+/policy.html /policy 301
