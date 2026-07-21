@@ -16,7 +16,7 @@ async function fetchPosts(token) {
   let offset = null;
   do {
     const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`);
-    url.searchParams.set("filterByFormula", "{Published}=1");
+    url.searchParams.set("filterByFormula", "AND({Published}=1, OR({Scheduled For}=BLANK(), IS_BEFORE({Scheduled For}, NOW())))");
     url.searchParams.set("sort[0][field]", "Date Published");
     url.searchParams.set("sort[0][direction]", "desc");
     if (offset) url.searchParams.set("offset", offset);
