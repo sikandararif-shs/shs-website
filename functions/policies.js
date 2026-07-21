@@ -41,10 +41,16 @@ async function fetchPolicies(token) {
 }
 
 export async function onRequestGet(context) {
+  const cache = caches.default;
+  const cacheKey = new Request(context.request.url, context.request);
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
   const token = context.env.AIRTABLE_TOKEN;
   let policies = [];
+  let fetchOk = false;
   if (token) {
-    try { policies = await fetchPolicies(token); } catch (e) { /* renders empty state */ }
+    try { policies = await fetchPolicies(token); fetchOk = true; } catch (e) { /* renders empty state */ }
   }
 
   const listHtml = policies.length ? policies.map(p => `
@@ -73,7 +79,9 @@ export async function onRequestGet(context) {
 <meta name="robots" content="noindex, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root{ --ink:#0A0A0A; --paper:#FAFAFA; --paper-dim:#F1EEE9; --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --line: rgba(10,10,10,0.10); }
@@ -224,8 +232,11 @@ document.querySelectorAll('.accordion-item').forEach(item => {
 </body>
 </html>`;
 
-  return new Response(html, {
+  const response = new Response(html, {
     status: 200,
     headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "public, max-age=120" }
   });
+
+  if (fetchOk) context.waitUntil(cache.put(cacheKey, response.clone()));
+  return response;
 }
