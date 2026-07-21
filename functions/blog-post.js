@@ -35,7 +35,7 @@ export async function onRequestGet(context) {
   if (token && slug) {
     try {
       const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`);
-      url.searchParams.set("filterByFormula", "{Published}=1");
+      url.searchParams.set("filterByFormula", "AND({Published}=1, OR({Scheduled For}=BLANK(), IS_BEFORE({Scheduled For}, NOW())))");
       const res = await fetch(url.toString(), { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
       const match = data.records.find(rec => ((rec.fields.Slug && rec.fields.Slug.trim()) || slugify(rec.fields.Title)) === slug);
@@ -45,6 +45,10 @@ export async function onRequestGet(context) {
         post = {
           title: f.Title || "Untitled", slug, category: f.Category || "General",
           datePublished: f["Date Published"] || null, bannerImage: f["Banner Image"]?.[0]?.url || null,
+          summary: f.Excerpt || "",
+          socialSnippet: f["Social Snippet"] || "",
+          metaTitle: f["Meta Title"] || "",
+          metaDescription: f["Meta Description"] || "",
           contentHtml: renderMarkdown(f["Body Text"] || "", inlineImages)
         };
       }
@@ -64,8 +68,13 @@ export async function onRequestGet(context) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${post ? esc(post.title) + ' — SHS Enterprises Blog' : 'Blog — SHS Enterprises'}</title>
-<meta name="description" content="${post ? esc(post.title) : 'SHS Enterprises blog'}">
+<title>${post ? esc(post.metaTitle || post.title) + ' — SHS Enterprises Blog' : 'Blog — SHS Enterprises'}</title>
+<meta name="description" content="${post ? esc(post.metaDescription || post.summary || post.title) : 'SHS Enterprises blog'}">
+${post ? `<meta property="og:title" content="${esc(post.title)}">
+<meta property="og:description" content="${esc(post.socialSnippet || post.summary || post.title)}">
+${post.bannerImage ? `<meta property="og:image" content="${post.bannerImage}">` : ''}
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.shs-enterprises.com/blog-post.html?slug=${encodeURIComponent(post.slug)}">` : ''}
 <link rel="canonical" href="https://www.shs-enterprises.com/blog-post${slug ? '?slug=' + encodeURIComponent(slug) : ''}">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https://schema.org","@type":"BlogPosting","headline":post.title,"datePublished":post.datePublished||"","image":post.bannerImage||"","author":{"@type":"Organization","name":"SHS Enterprises"}})}</script>` : ''}
