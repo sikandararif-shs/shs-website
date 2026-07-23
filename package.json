@@ -1,0 +1,10 @@
+{
+  "name": "shs-website",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./input.css -o ./assets/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
