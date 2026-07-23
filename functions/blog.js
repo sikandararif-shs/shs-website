@@ -29,11 +29,15 @@ async function fetchPosts(token) {
 
   return records.map(rec => {
     const f = rec.fields;
+    const banner = f["Banner Image"]?.[0];
+    const bannerThumb = banner?.thumbnails?.large;
     return {
       slug: (f.Slug && f.Slug.trim()) || slugify(f.Title),
       title: f.Title || "Untitled",
       excerpt: f.Excerpt || "",
-      bannerImage: f["Banner Image"]?.[0]?.thumbnails?.large?.url || f["Banner Image"]?.[0]?.url || null,
+      bannerImage: bannerThumb?.url || banner?.url || null,
+      bannerImageWidth: bannerThumb?.width || banner?.width || null,
+      bannerImageHeight: bannerThumb?.height || banner?.height || null,
       category: f.Category || "General",
       datePublished: f["Date Published"] || null
     };
@@ -55,7 +59,7 @@ export async function onRequestGet(context) {
 
   const postsHtml = posts.length ? posts.map(p => `
     <a href="blog-post?slug=${encodeURIComponent(p.slug)}" class="post-card block">
-      <div class="post-img">${p.bannerImage ? `<img src="${p.bannerImage}" alt="${esc(p.title)}" loading="lazy">` : ''}</div>
+      <div class="post-img">${p.bannerImage ? `<img src="${p.bannerImage}" alt="${esc(p.title)}" loading="lazy"${p.bannerImageWidth && p.bannerImageHeight ? ` width="${p.bannerImageWidth}" height="${p.bannerImageHeight}"` : ''}>` : ''}</div>
       <div class="p-6">
         <p class="eyebrow mb-2" style="color:var(--gold)">${p.category}</p>
         <h2 class="font-display text-xl mb-2">${p.title}</h2>
@@ -83,7 +87,7 @@ export async function onRequestGet(context) {
 <script src="https://cdn.tailwindcss.com"></script>
 <script type="application/ld+json">{ "@context": "https://schema.org", "@type": "Blog", "name": "SHS Enterprises Blog", "url": "https://www.shs-enterprises.com/blog" }</script>
 <style>
-  :root{ --ink:#0A0A0A; --paper:#FAFAFA; --paper-dim:#F1EEE9; --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --line: rgba(10,10,10,0.10); }
+  :root{ --ink:#0A0A0A; --paper:#FAFAFA; --paper-dim:#F1EEE9; --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#726C63; --line: rgba(10,10,10,0.10); }
   *{box-sizing:border-box;}
   body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
   .font-display{font-family:'Fraunces',serif;}
@@ -171,12 +175,12 @@ export async function onRequestGet(context) {
 
 <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain" width="77" height="112"></a>
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
       <a href="/" class="hover:text-[var(--red)]">Home</a>
       <div class="nav-dropdown">
-        <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+        <a href="portfolio" class="hover:text-[var(--red)] inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
         <div class="nav-dropdown-menu">
           <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
         </div>
@@ -201,7 +205,7 @@ export async function onRequestGet(context) {
     <div class="mobile-nav-item">
       <div class="mobile-nav-row">
         <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
-        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false">▾</button>
+        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
       <div class="mobile-submenu">
         <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
@@ -214,6 +218,7 @@ export async function onRequestGet(context) {
     <a href="contact" class="hover:text-[var(--red)]">Contact</a>
   </div>
 </div>
+<main>
 
 <section class="pt-40 pb-16 px-6 md:px-10">
   <div class="max-w-4xl mx-auto">
@@ -228,10 +233,11 @@ export async function onRequestGet(context) {
   ${emptyState}
 </section>
 
+</main>
 <footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
     <div>
-      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4" width="77" height="112">
       <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">

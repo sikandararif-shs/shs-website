@@ -64,9 +64,12 @@ async function fetchPortfolioData(token) {
     const f = rec.fields;
     if (!f.Image || !f.Image.length) continue;
     const category = f.Category || "Uncategorized";
+    const thumb = f.Image[0].thumbnails?.large;
     const item = {
-      url: f.Image[0].thumbnails?.large?.url || f.Image[0].url,
+      url: thumb?.url || f.Image[0].url,
       fullUrl: f.Image[0].url,
+      width: thumb?.width || f.Image[0].width,
+      height: thumb?.height || f.Image[0].height,
       alt: f["Alt Text"] || `${category} — SHS Enterprises manufacturing`,
       caption: f["Caption"] || "",
       category
@@ -113,7 +116,7 @@ export async function onRequestGet(context) {
         <h2 class="font-display text-3xl md:text-4xl mb-8" style="color:#2E2408;">SHS's Hall of Fame</h2>
         <div class="cat-grid">${hallOfFame.map(img => `
           <div>
-            <div class="cat-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"></div>
+            <div class="cat-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}></div>
             ${img.caption ? `<p class="cat-caption" style="color:#4A3A14; opacity:1;">${esc(img.caption)}</p>` : ''}
           </div>`).join('')}
         </div>
@@ -125,7 +128,7 @@ export async function onRequestGet(context) {
     const grid = images.length
       ? images.map(img => `
           <div>
-            <div class="cat-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"></div>
+            <div class="cat-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}></div>
             ${img.caption ? `<p class="cat-caption">${esc(img.caption)}</p>` : ''}
           </div>`).join('')
       : Array.from({length:4}).map(() => `<div class="empty-slot">New pieces coming soon</div>`).join('');
@@ -179,7 +182,7 @@ export async function onRequestGet(context) {
 <style>
   :root{
     --ink:#0A0A0A; --navy:#0D1B2A; --paper:#FAFAFA; --paper-dim:#F1EEE9;
-    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --stone-light:#C9C0B2;
+    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#726C63; --stone-light:#C9C0B2;
     --line: rgba(10,10,10,0.10); --line-dark: rgba(250,250,250,0.14);
   }
   *{box-sizing:border-box;} html{scroll-behavior:smooth;}
@@ -317,12 +320,12 @@ export async function onRequestGet(context) {
 
 <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain" width="77" height="112"></a>
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
       <a href="/" class="hover:text-[var(--red)]">Home</a>
       <div class="nav-dropdown">
-        <a href="portfolio" style="color:var(--red)">Portfolio</a>
+        <a href="portfolio" style="color:var(--red)" class="inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
         <div class="nav-dropdown-menu">
           <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
         </div>
@@ -347,7 +350,7 @@ export async function onRequestGet(context) {
     <div class="mobile-nav-item">
       <div class="mobile-nav-row">
         <a href="portfolio" style="color:var(--red)">Portfolio</a>
-        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false">▾</button>
+        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
       <div class="mobile-submenu">
         <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
@@ -360,6 +363,7 @@ export async function onRequestGet(context) {
     <a href="contact" class="hover:text-[var(--red)]">Contact</a>
   </div>
 </div>
+<main>
 
 <section class="pt-40 pb-16 px-6 md:px-10 navy-hero fade-to-gold">
   <div class="max-w-4xl mx-auto">
@@ -393,10 +397,11 @@ ${hallOfFameHtml}
   <img id="lightboxImg" src="" alt="">
 </div>
 
+</main>
 <footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
     <div>
-      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4" width="77" height="112">
       <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">

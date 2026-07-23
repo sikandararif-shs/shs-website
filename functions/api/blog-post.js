@@ -23,7 +23,8 @@ function renderMarkdown(text, inlineImages) {
     const idx = parseInt(n, 10) - 1;
     const img = inlineImages[idx];
     if (!img) return ""; // marker referenced an image that doesn't exist — drop it silently
-    return `\n<img src="${img.url}" alt="${img.filename || "SHS Enterprises blog image"}" class="w-full rounded-xl my-8" loading="lazy">\n`;
+    const dims = img.width && img.height ? ` width="${img.width}" height="${img.height}"` : '';
+    return `\n<img src="${img.url}" alt="${img.filename || "SHS Enterprises blog image"}" class="w-full rounded-xl my-8" loading="lazy"${dims}>\n`;
   });
 
   const lines = text.split("\n");
@@ -99,12 +100,15 @@ export async function onRequestGet(context) {
     }
 
     const f = match.fields;
-    const inlineImages = (f["Inline Images"] || []).map(img => ({ url: img.url, filename: img.filename }));
+    const inlineImages = (f["Inline Images"] || []).map(img => ({ url: img.url, filename: img.filename, width: img.width, height: img.height }));
+    const banner = f["Banner Image"]?.[0];
 
     const post = {
       title: f.Title || "Untitled",
       slug,
-      bannerImage: f["Banner Image"]?.[0]?.url || null,
+      bannerImage: banner?.url || null,
+      bannerImageWidth: banner?.width || null,
+      bannerImageHeight: banner?.height || null,
       category: f.Category || "General",
       datePublished: f["Date Published"] || null,
       excerpt: f.Excerpt || "",

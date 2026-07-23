@@ -33,7 +33,7 @@
 <style>
   :root{
     --ink:#0A0A0A; --navy:#0D1B2A; --paper:#FAFAFA; --paper-dim:#F1EEE9;
-    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --stone-light:#C9C0B2;
+    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#726C63; --stone-light:#C9C0B2;
     --line: rgba(10,10,10,0.10); --line-dark: rgba(250,250,250,0.14);
   }
   *{box-sizing:border-box;} html{scroll-behavior:smooth;}
@@ -145,12 +145,12 @@
 
 <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line-dark);">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain" width="77" height="112"></a>
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
       <a href="/" class="hover:text-[var(--red)]">Home</a>
       <div class="nav-dropdown">
-        <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+        <a href="portfolio" class="hover:text-[var(--red)] inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
         <div class="nav-dropdown-menu">
           <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
         </div>
@@ -175,7 +175,7 @@
     <div class="mobile-nav-item">
       <div class="mobile-nav-row">
         <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
-        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false">▾</button>
+        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
       <div class="mobile-submenu">
         <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
@@ -188,6 +188,7 @@
       <a href="contact" class="hover:text-[var(--red)]">Contact</a>
   </div>
 </div>
+<main>
 
 <!-- Bold opening line -->
 <section class="pt-40 pb-16 px-6 md:px-10 dark-section section-fade-bottom relative overflow-hidden">
@@ -282,7 +283,7 @@
   <div class="max-w-2xl mx-auto text-center relative">
     <p class="reveal eyebrow mb-5" style="color:var(--gold)">Sponsorships</p>
     <h2 class="reveal font-display text-3xl md:text-5xl leading-tight mb-8">We are proud to sponsor TEDxLyari in 2025.</h2>
-    <img class="reveal mx-auto h-20 w-auto object-contain mb-10 rounded-lg" src="assets/client-logos/sponsored-tedxlyari-logo.jpg" alt="TEDxLyari logo — sponsored by SHS Enterprises">
+    <img class="reveal mx-auto h-20 w-auto object-contain mb-10 rounded-lg" src="assets/client-logos/sponsored-tedxlyari-logo.jpg" alt="TEDxLyari logo — sponsored by SHS Enterprises" width="160" height="160">
 
     <div class="reveal flex justify-center mb-10">
       <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DQypZ-MDDlt/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
@@ -301,10 +302,11 @@
 </section>
 <script async src="//www.instagram.com/embed.js"></script>
 
+</main>
 <footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
     <div>
-      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4" width="77" height="112">
       <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">
