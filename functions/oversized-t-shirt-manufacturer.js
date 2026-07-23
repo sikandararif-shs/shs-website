@@ -28,9 +28,12 @@ async function fetchImageRecords(token, ids) {
       const data = await res.json();
       const f = data.fields;
       if (!f.Image || !f.Image.length) return;
+      const thumb = f.Image[0].thumbnails?.large;
       results[id] = {
-        url: f.Image[0].thumbnails?.large?.url || f.Image[0].url,
+        url: thumb?.url || f.Image[0].url,
         fullUrl: f.Image[0].url,
+        width: thumb?.width || f.Image[0].width,
+        height: thumb?.height || f.Image[0].height,
         alt: f["Alt Text"] || "SHS Enterprises oversized t-shirt manufacturing"
       };
     } catch (e) { /* skip this image — page still renders without it */ }
@@ -43,7 +46,7 @@ function renderContentImage(img) {
   return `
     <div class="content-img-wrap my-10">
       <div class="content-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')">
-        <img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
+        <img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}>
       </div>
     </div>`;
 }
@@ -101,7 +104,7 @@ export async function onRequestGet(context) {
 <style>
   :root{
     --ink:#0A0A0A; --navy:#0D1B2A; --paper:#FAFAFA; --paper-dim:#F1EEE9;
-    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --stone-light:#C9C0B2;
+    --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#726C63; --stone-light:#C9C0B2;
     --line: rgba(10,10,10,0.10); --line-dark: rgba(250,250,250,0.14);
   }
   *{box-sizing:border-box;} html{scroll-behavior:smooth;}
@@ -177,7 +180,7 @@ export async function onRequestGet(context) {
 
 <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain" width="77" height="112"></a>
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
       <a href="/" class="hover:text-[var(--red)]">Home</a>
@@ -204,6 +207,7 @@ export async function onRequestGet(context) {
     <a href="contact" class="hover:text-[var(--red)]">Contact</a>
   </div>
 </div>
+<main>
 
 <section class="pt-40 pb-16 px-6 md:px-10 navy-hero section-fade-bottom">
   <div class="max-w-4xl mx-auto">
@@ -280,10 +284,11 @@ export async function onRequestGet(context) {
   <img id="lightboxImg" src="" alt="">
 </div>
 
+</main>
 <footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
     <div>
-      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4" width="77" height="112">
       <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">

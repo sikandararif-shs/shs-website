@@ -10,7 +10,9 @@ function renderMarkdown(text, inlineImages) {
   if (!text) return "";
   text = text.replace(/\[image-(\d+)\]/g, (m, n) => {
     const img = inlineImages[parseInt(n, 10) - 1];
-    return img ? `\n<img src="${img.url}" alt="${esc(img.filename) || 'SHS Enterprises blog image'}" class="w-full rounded-xl my-8" loading="lazy">\n` : "";
+    if (!img) return "";
+    const dims = img.width && img.height ? ` width="${img.width}" height="${img.height}"` : '';
+    return `\n<img src="${img.url}" alt="${esc(img.filename) || 'SHS Enterprises blog image'}" class="w-full rounded-xl my-8" loading="lazy"${dims}>\n`;
   });
   const lines = text.split("\n");
   let html = "", inList = false;
@@ -46,10 +48,12 @@ export async function onRequestGet(context) {
       const match = data.records.find(rec => ((rec.fields.Slug && rec.fields.Slug.trim()) || slugify(rec.fields.Title)) === slug);
       if (match) {
         const f = match.fields;
-        const inlineImages = (f["Inline Images"] || []).map(img => ({ url: img.url, filename: img.filename }));
+        const inlineImages = (f["Inline Images"] || []).map(img => ({ url: img.url, filename: img.filename, width: img.width, height: img.height }));
+        const banner = f["Banner Image"]?.[0];
         post = {
           title: f.Title || "Untitled", slug, category: f.Category || "General",
-          datePublished: f["Date Published"] || null, bannerImage: f["Banner Image"]?.[0]?.url || null,
+          datePublished: f["Date Published"] || null, bannerImage: banner?.url || null,
+          bannerImageWidth: banner?.width || null, bannerImageHeight: banner?.height || null,
           summary: f.Excerpt || "",
           socialSnippet: f["Social Snippet"] || "",
           metaTitle: f["Meta Title"] || "",
@@ -64,7 +68,7 @@ export async function onRequestGet(context) {
     <p class="eyebrow mb-4" style="color:var(--gold)">${post.category}</p>
     <h1 class="font-display text-4xl md:text-5xl leading-tight mb-4">${post.title}</h1>
     <p class="muted text-sm mb-8">${formatDate(post.datePublished)}</p>
-    ${post.bannerImage ? `<img src="${post.bannerImage}" alt="${esc(post.title)}" class="w-full rounded-2xl mb-10">` : ''}
+    ${post.bannerImage ? `<img src="${post.bannerImage}" alt="${esc(post.title)}" class="w-full rounded-2xl mb-10"${post.bannerImageWidth && post.bannerImageHeight ? ` width="${post.bannerImageWidth}" height="${post.bannerImageHeight}"` : ''}>` : ''}
     <div class="text-lg leading-relaxed">${post.contentHtml}</div>
   ` : `<p class="text-center muted py-20">Post not found. <a href="blog" style="color:var(--red)">Back to Blog</a></p>`;
 
@@ -90,7 +94,7 @@ ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https
 <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  :root{ --ink:#0A0A0A; --paper:#FAFAFA; --paper-dim:#F1EEE9; --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#827C74; --line: rgba(10,10,10,0.10); }
+  :root{ --ink:#0A0A0A; --paper:#FAFAFA; --paper-dim:#F1EEE9; --red:#C90201; --red-deep:#750101; --gold:#C39D63; --stone:#726C63; --line: rgba(10,10,10,0.10); }
   *{box-sizing:border-box;}
   body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
   .font-display{font-family:'Fraunces',serif;}
@@ -173,12 +177,12 @@ ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https
 <body>
 <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain"></a>
+    <a href="/"><img src="assets/logo-icon.png" alt="SHS Enterprises Logo" class="h-12 w-auto object-contain" width="77" height="112"></a>
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
       <a href="/" class="hover:text-[var(--red)]">Home</a>
       <div class="nav-dropdown">
-        <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+        <a href="portfolio" class="hover:text-[var(--red)] inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
         <div class="nav-dropdown-menu">
           <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
         </div>
@@ -203,7 +207,7 @@ ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https
     <div class="mobile-nav-item">
       <div class="mobile-nav-row">
         <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
-        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false">▾</button>
+        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
       <div class="mobile-submenu">
         <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
@@ -216,13 +220,15 @@ ${post ? `<script type="application/ld+json">${JSON.stringify({"@context":"https
     <a href="contact" class="hover:text-[var(--red)]">Contact</a>
   </div>
 </div>
+<main>
 <article class="pt-40 pb-24 px-6 md:px-10">
   <div class="max-w-3xl mx-auto">${bodyHtml}</div>
 </article>
+</main>
 <footer class="py-16 px-6 md:px-10 border-t" style="border-color:var(--line);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
     <div>
-      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4">
+      <img src="assets/logo-icon.png" alt="SHS Enterprises" class="h-14 w-auto object-contain mb-4" width="77" height="112">
       <p class="muted text-sm max-w-xs">Low-MOQ clothing manufacturer & full brand growth system for fashion brands. Based in Karachi, working worldwide.</p>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">
