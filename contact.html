@@ -238,6 +238,10 @@
           <label for="phoneNumber">Phone Number</label>
           <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+92...">
         </div>
+        <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <button type="submit" class="btn-primary" id="submitBtn">Send Message →</button>
         <p id="formStatus" class="text-sm text-center"></p>
         </div>
@@ -345,7 +349,8 @@ form.addEventListener('submit', async (e) => {
     brandName: document.getElementById('brandName').value,
     reason: document.getElementById('reason').value,
     contactPreference: contactPref.value,
-    phoneNumber: phoneInput.value
+    phoneNumber: phoneInput.value,
+    website: document.getElementById('website').value
   };
 
   try {

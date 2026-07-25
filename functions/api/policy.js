@@ -12,15 +12,16 @@ function slugify(title) {
     .replace(/\s+/g, "-");
 }
 
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
 function renderMarkdown(text) {
   if (!text) return "";
   const lines = text.split("\n");
   let html = "";
   let inList = false;
 
-  for (let line of lines) {
-    line = line.trim();
-    line = line.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  for (let raw of lines) {
+    let line = esc(raw.trim()).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 
     if (line.startsWith("## ")) {
       if (inList) { html += "</ul>"; inList = false; }

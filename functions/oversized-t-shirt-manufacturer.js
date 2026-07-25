@@ -15,7 +15,7 @@ const SILHOUETTE_IMG = "reczE5P55r9DcahaT";
 const CLOSING_IMG = "recRytk4mKeBy5P59";
 const IMAGE_IDS = [HERO_IMG, FABRIC_IMG, MACHINERY_IMG, SILHOUETTE_IMG, CLOSING_IMG];
 
-function esc(s) { return (s || '').replace(/"/g, '&quot;'); }
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
 async function fetchImageRecords(token, ids) {
   const results = {};
@@ -45,7 +45,7 @@ function renderContentImage(img) {
   if (!img) return '';
   return `
     <div class="content-img-wrap my-10">
-      <div class="content-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')">
+      <div class="content-img" data-lightbox-url="${esc(img.fullUrl)}" data-lightbox-alt="${esc(img.alt)}">
         <img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}>
       </div>
     </div>`;
@@ -345,6 +345,10 @@ function openLightbox(url, alt){
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('.content-img[data-lightbox-url]');
+  if (trigger) openLightbox(trigger.dataset.lightboxUrl, trigger.dataset.lightboxAlt);
+});
 function closeLightbox(){
   const lb = document.getElementById('lightbox');
   lb.classList.remove('open');

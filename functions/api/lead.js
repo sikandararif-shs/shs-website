@@ -18,7 +18,16 @@ export async function onRequestPost(context) {
 
   try {
     const body = await context.request.json();
-    const { name, email, brandName, reason, contactPreference, phoneNumber } = body;
+    const { name, email, brandName, reason, contactPreference, phoneNumber, website } = body;
+
+    // --- Honeypot: "website" is hidden from real visitors via CSS. Only bots that
+    // blindly fill every field will populate it. Pretend success without writing anything. ---
+    if (website?.trim()) {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
 
     // --- Server-side validation (never trust the browser alone) ---
     const errors = [];
