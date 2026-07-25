@@ -5,7 +5,7 @@ const TABLE_ID = "tblnpJA3AUZIpSLnz"; // Blogs table
 function slugify(title) {
   return (title || "untitled").toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
 }
-function esc(s) { return (s || '').replace(/"/g, '&quot;'); }
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function formatDate(iso) {
   if (!iso) return '';
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });

@@ -43,7 +43,7 @@ const FAQS = [
 ];
 
 function slugToId(s) { return s.toLowerCase().replace(/[^\w]+/g, '-'); }
-function esc(s) { return (s || '').replace(/"/g, '&quot;'); }
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
 async function fetchPortfolioData(token) {
   let records = [];
@@ -116,7 +116,7 @@ export async function onRequestGet(context) {
         <h2 class="font-display text-3xl md:text-4xl mb-8" style="color:#2E2408;">SHS's Hall of Fame</h2>
         <div class="cat-grid">${hallOfFame.map(img => `
           <div>
-            <div class="cat-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}></div>
+            <div class="cat-img" data-lightbox-url="${esc(img.fullUrl)}" data-lightbox-alt="${esc(img.alt)}"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}></div>
             ${img.caption ? `<p class="cat-caption" style="color:#4A3A14; opacity:1;">${esc(img.caption)}</p>` : ''}
           </div>`).join('')}
         </div>
@@ -128,7 +128,7 @@ export async function onRequestGet(context) {
     const grid = images.length
       ? images.map(img => `
           <div>
-            <div class="cat-img" onclick="openLightbox('${img.fullUrl}', '${esc(img.alt)}')"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}></div>
+            <div class="cat-img" data-lightbox-url="${esc(img.fullUrl)}" data-lightbox-alt="${esc(img.alt)}"><img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}></div>
             ${img.caption ? `<p class="cat-caption">${esc(img.caption)}</p>` : ''}
           </div>`).join('')
       : Array.from({length:4}).map(() => `<div class="empty-slot">New pieces coming soon</div>`).join('');
@@ -458,6 +458,10 @@ function openLightbox(url, alt){
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('.cat-img[data-lightbox-url]');
+  if (trigger) openLightbox(trigger.dataset.lightboxUrl, trigger.dataset.lightboxAlt);
+});
 function closeLightbox(){
   const lb = document.getElementById('lightbox');
   lb.classList.remove('open');

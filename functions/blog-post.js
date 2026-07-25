@@ -3,7 +3,7 @@ const BASE_ID = "applLqc9DL2932xAm";
 const TABLE_ID = "tblnpJA3AUZIpSLnz";
 
 function slugify(title) { return (title || "untitled").toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-"); }
-function esc(s) { return (s || '').replace(/"/g, '&quot;'); }
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function formatDate(iso) { if (!iso) return ''; return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); }
 
 function renderMarkdown(text, inlineImages) {
@@ -12,16 +12,17 @@ function renderMarkdown(text, inlineImages) {
     const img = inlineImages[parseInt(n, 10) - 1];
     if (!img) return "";
     const dims = img.width && img.height ? ` width="${img.width}" height="${img.height}"` : '';
-    return `\n<img src="${img.url}" alt="${esc(img.filename) || 'SHS Enterprises blog image'}" class="w-full rounded-xl my-8" loading="lazy"${dims}>\n`;
+    return `\n<img src="${esc(img.url)}" alt="${esc(img.filename) || 'SHS Enterprises blog image'}" class="w-full rounded-xl my-8" loading="lazy"${dims}>\n`;
   });
   const lines = text.split("\n");
   let html = "", inList = false;
-  for (let line of lines) {
-    line = line.trim().replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  for (let raw of lines) {
+    let line = raw.trim();
+    if (line.startsWith("<img")) { if (inList) { html += "</ul>"; inList = false; } html += line; continue; }
+    line = esc(line).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
     if (line.startsWith("## ")) { if (inList) { html += "</ul>"; inList = false; } html += `<h2 class="font-display text-3xl mt-12 mb-4">${line.slice(3)}</h2>`; }
     else if (line.startsWith("# ")) { if (inList) { html += "</ul>"; inList = false; } html += `<h1 class="font-display text-4xl mt-12 mb-5">${line.slice(2)}</h1>`; }
     else if (line.startsWith("- ")) { if (!inList) { html += '<ul class="list-disc pl-6 space-y-2 my-4">'; inList = true; } html += `<li>${line.slice(2)}</li>`; }
-    else if (line.startsWith("<img")) { if (inList) { html += "</ul>"; inList = false; } html += line; }
     else if (line === "") { if (inList) { html += "</ul>"; inList = false; } }
     else { if (inList) { html += "</ul>"; inList = false; } html += `<p class="my-4 leading-relaxed">${line}</p>`; }
   }

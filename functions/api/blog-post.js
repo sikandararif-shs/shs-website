@@ -14,6 +14,8 @@ function slugify(title) {
     .replace(/\s+/g, "-");
 }
 
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
 // Minimal Markdown -> HTML converter, deliberately simple (no external libraries).
 function renderMarkdown(text, inlineImages) {
   if (!text) return "";
@@ -24,18 +26,24 @@ function renderMarkdown(text, inlineImages) {
     const img = inlineImages[idx];
     if (!img) return ""; // marker referenced an image that doesn't exist — drop it silently
     const dims = img.width && img.height ? ` width="${img.width}" height="${img.height}"` : '';
-    return `\n<img src="${img.url}" alt="${img.filename || "SHS Enterprises blog image"}" class="w-full rounded-xl my-8" loading="lazy"${dims}>\n`;
+    return `\n<img src="${esc(img.url)}" alt="${esc(img.filename) || "SHS Enterprises blog image"}" class="w-full rounded-xl my-8" loading="lazy"${dims}>\n`;
   });
 
   const lines = text.split("\n");
   let html = "";
   let inList = false;
 
-  for (let line of lines) {
-    line = line.trim();
+  for (let raw of lines) {
+    let line = raw.trim();
+
+    if (line.startsWith("<img")) {
+      if (inList) { html += "</ul>"; inList = false; }
+      html += line;
+      continue;
+    }
 
     // Bold: **text**
-    line = line.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    line = esc(line).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 
     if (line.startsWith("## ")) {
       if (inList) { html += "</ul>"; inList = false; }
@@ -46,9 +54,6 @@ function renderMarkdown(text, inlineImages) {
     } else if (line.startsWith("- ")) {
       if (!inList) { html += '<ul class="list-disc pl-6 space-y-2 my-4">'; inList = true; }
       html += `<li>${line.slice(2)}</li>`;
-    } else if (line.startsWith("<img")) {
-      if (inList) { html += "</ul>"; inList = false; }
-      html += line;
     } else if (line === "") {
       if (inList) { html += "</ul>"; inList = false; }
     } else {

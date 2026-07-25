@@ -14,11 +14,11 @@ Live at [shs-enterprises.com](https://www.shs-enterprises.com). This is the sour
 ├── watch.html            Instagram content
 ├── assets/               Logo, favicon, client logos
 └── functions/
-    ├── portfolio.html.js  Portfolio — server-rendered from Airtable, live
-    ├── blog.html.js        Blog index — server-rendered from Airtable
-    ├── blog-post.html.js    Single blog post reader
-    ├── policies.html.js     Policies index — server-rendered from Airtable
-    ├── policy.html.js       Single policy reader
+    ├── portfolio.js         Portfolio — server-rendered from Airtable, live
+    ├── blog.js              Blog index — server-rendered from Airtable
+    ├── blog-post.js         Single blog post reader
+    ├── policies.js          Policies index — server-rendered from Airtable
+    ├── policy.js            Single policy reader
     └── api/                Contact form endpoint, plus legacy read-only endpoints
 ```
 
@@ -36,7 +36,7 @@ Open your **SHS Website** base. Three tables matter here:
 - **Blogs** — Title, Slug, Banner Image, Excerpt, Body Text (supports `#`/`##` headers, `**bold**`, `- lists`, and `[image-1]` style markers for inline photos), Category, Date Published, Published
 - **Policies** — same shape as Blogs, plus Effective From. Category must be exactly `External Policy` or `Internal Policy`.
 
-Nothing goes live until **Published** is checked.
+Nothing goes live until **Published** is checked — for Blogs and Policies. **Portfolio has no Published gate**: any image added to that table appears on the live site immediately, so only add images there when they're ready to be public.
 
 ## Editing content that lives in code
 
