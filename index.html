@@ -254,9 +254,47 @@
     .reveal{opacity:1; transform:none; transition:none;}
     .marquee-track{animation:none;}
     .btn-pulse{animation:none;}
+    .portfolio-tile{opacity:1; transform:none; transition:none;}
   }
 
   .nav-blur{backdrop-filter:blur(14px); background:rgba(250,250,250,0.85);}
+
+  .techfile-stack{ position:relative; aspect-ratio:1/1; max-width:440px; margin:0 auto; }
+  .techfile-card{
+    position:absolute; width:70%; aspect-ratio:4/5; border-radius:16px; overflow:hidden;
+    box-shadow:0 40px 70px -28px rgba(10,10,10,0.35); border:1px solid var(--line);
+    background:var(--paper-dim);
+  }
+  .techfile-card img{ width:100%; height:114%; object-fit:cover; object-position:top; display:block; }
+  .techfile-card-back{ top:2%; left:0; transform:rotate(-7deg); z-index:1; }
+  .techfile-card-front{ bottom:2%; right:0; transform:rotate(5deg); z-index:2; }
+  @media (max-width: 767px){
+    .techfile-stack{ max-width:300px; }
+    .techfile-card{ width:76%; }
+  }
+
+  .portfolio-proof-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:1.25rem; }
+  @media (min-width: 768px){
+    .portfolio-proof-grid{ grid-template-columns:repeat(5, 1fr); gap:1.5rem; }
+  }
+  .portfolio-tile{
+    opacity:0; transform:translateY(26px);
+    transition:opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1);
+  }
+  .portfolio-tile.in{ opacity:1; transform:translateY(0); }
+  .portfolio-tile-frame{ aspect-ratio:4/5; border-radius:14px; overflow:hidden; background:var(--paper-dim); border:1px solid var(--line); }
+  .portfolio-tile-frame img{ width:100%; height:118%; object-fit:cover; display:block; }
+  .portfolio-tile-empty{
+    aspect-ratio:4/5; border-radius:14px; border:1px dashed var(--stone-light);
+    display:flex; align-items:center; justify-content:center; padding:1rem; text-align:center;
+    color:var(--stone); font-family:'JetBrains Mono',monospace; font-size:0.66rem;
+  }
+
+  .numbers-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:1.25rem; }
+  @media (min-width: 768px){
+    .numbers-grid{ grid-template-columns:repeat(4, 1fr); gap:1.5rem; }
+  }
+  .numbers-card{ border:1px solid var(--line); border-radius:20px; padding:2.25rem 1.5rem; background:var(--paper-dim); }
 
   .wa-float{
     position:fixed; bottom:24px; right:24px; z-index:50;
@@ -490,6 +528,72 @@
   </div>
 </section>
 
+<section id="techfile-proof" class="py-28 md:py-40 px-6 md:px-10 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center">
+    <div class="reveal">
+      <p class="eyebrow mb-5" style="color:var(--red)">Techfiles</p>
+      <h2 class="font-display font-bold text-4xl md:text-6xl leading-[1.1] mb-8">Every techfile tells the truth before a single sample gets cut.</h2>
+      <p class="muted text-lg leading-relaxed mb-10 max-w-lg">Your headache ends here. Every techfile is exact and clear, nothing hidden. So every decision moving forward is backed by real data, not guesswork, and your brand keeps moving instead of getting stuck.</p>
+      <a href="services" class="btn-primary">More services →</a>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="techfile-stack">
+        <div class="techfile-card techfile-card-back">
+          <img class="parallax" src="assets/techfiles/tech-file-denim-shorts.png" alt="SHS Enterprises technical file for rhinestone spray blast denim shorts, showing front and back photos, construction detail callouts, and measurements" width="1122" height="1402" loading="lazy" decoding="async">
+        </div>
+        <div class="techfile-card techfile-card-front">
+          <img class="parallax" src="assets/techfiles/tech-file-gothic-eyelid-hoodie.png" alt="SHS Enterprises technical file for a gothic eyelid zip hoodie, showing front and back photos, construction detail callouts, and measurements" width="1122" height="1402" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio-proof" class="py-28 md:py-40 px-6 md:px-10 relative" style="background:var(--paper-dim);">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-3xl mb-16 md:mb-20">
+      <p class="eyebrow mb-5" style="color:var(--red)">Portfolio</p>
+      <h2 class="font-display text-4xl md:text-5xl leading-tight">We don't do basic tees. We build pieces worth building a brand around.</h2>
+    </div>
+    <div id="portfolioProofGrid" class="portfolio-proof-grid">
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+    </div>
+    <div class="reveal text-center mt-14 md:mt-16">
+      <a href="portfolio" class="btn-primary">See the full portfolio →</a>
+    </div>
+  </div>
+</section>
+
+<section id="real-numbers" class="py-28 md:py-40 px-6 md:px-10 relative">
+  <div class="max-w-6xl mx-auto text-center">
+    <p class="reveal mb-16 md:mb-20 font-mono text-sm" style="color:var(--stone); letter-spacing:0.08em;">The numbers behind better decisions.</p>
+    <div class="numbers-grid">
+      <div class="numbers-card reveal reveal-delay-1">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="50" data-suffix="">0</p>
+        <p class="muted">Pieces, minimum order quantity.</p>
+      </div>
+      <div class="numbers-card reveal reveal-delay-2">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="45" data-prefix="25 to " data-suffix=" days">0</p>
+        <p class="muted">Concept to delivery.</p>
+      </div>
+      <div class="numbers-card reveal reveal-delay-3">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="38" data-suffix="">0</p>
+        <p class="muted">Brands delivered to date.</p>
+      </div>
+      <div class="numbers-card reveal reveal-delay-4">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="30" data-suffix="%">0</p>
+        <p class="muted">Average gross margin gain reported by 17 active brands using our strategy services.</p>
+      </div>
+    </div>
+    <p class="reveal muted text-lg max-w-2xl mx-auto mt-16 md:mt-20 leading-relaxed">83% of the brands we take on stay with us. The rest usually left because they picked a partner who looked like a low MOQ manufacturer but wasn't one.</p>
+    <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="reveal btn-primary mt-10 inline-flex">Schedule a meeting →</a>
+  </div>
+</section>
+
 <section id="faq" class="py-24 md:py-32 px-6 md:px-10">
   <div class="max-w-3xl mx-auto">
     <p class="eyebrow reveal mb-5" style="color:var(--red)">Frequently Asked</p>
@@ -639,6 +743,91 @@ document.querySelectorAll('#faqList .accordion-item').forEach(item => {
   item.querySelector('button').addEventListener('click', () => item.classList.toggle('open'));
   io.observe(item);
 });
+
+// Gentle parallax on the techfile and portfolio images — a live HTMLCollection so
+// images injected later (portfolio proof) are picked up automatically.
+const parallaxEls = document.getElementsByClassName('parallax');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let parallaxTicking = false;
+function updateParallax(){
+  const vh = window.innerHeight;
+  Array.prototype.forEach.call(parallaxEls, el => {
+    const rect = el.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const offset = Math.max(-18, Math.min(18, ((center - vh / 2) / vh) * 32));
+    el.style.transform = `translateY(${offset.toFixed(1)}px)`;
+  });
+  parallaxTicking = false;
+}
+if(!reduceMotion){
+  window.addEventListener('scroll', () => {
+    if(!parallaxTicking){ requestAnimationFrame(updateParallax); parallaxTicking = true; }
+  }, { passive:true });
+  window.addEventListener('resize', updateParallax);
+  updateParallax();
+}
+
+// Portfolio proof — pulls five live images from the same /api/portfolio endpoint the
+// Portfolio page uses, one each from the tee, hoodie, jogger and denim categories plus
+// one wildcard category, re-shuffled on every load. Each tile fades in and back out
+// individually as it crosses the viewport, rather than all together.
+(function(){
+  const grid = document.getElementById('portfolioProofGrid');
+  if(!grid) return;
+
+  const teeCats = ['Washed Oversized Tees', 'Graphic/Puff/Embroidery/Screen Printed Tees', 'Spray Tees'];
+  const hoodieCats = ['Spray & Garment Washed Hoodies'];
+  const joggerCats = ['French Terry & Jersey Shorts, Joggers & Trousers'];
+  const denimCats = ['Denim Bottoms'];
+  const namedCats = new Set([...teeCats, ...hoodieCats, ...joggerCats, ...denimCats]);
+
+  function pickFrom(categories, catList){
+    const pool = [];
+    catList.forEach(cat => (categories[cat] || []).forEach(img => pool.push(img)));
+    if(!pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  fetch('/api/portfolio').then(res => res.ok ? res.json() : Promise.reject()).then(data => {
+    const categories = data.categories || {};
+    const picks = [teeCats, hoodieCats, joggerCats, denimCats]
+      .map(catList => pickFrom(categories, catList))
+      .filter(Boolean);
+
+    const wildcardCats = Object.keys(categories).filter(cat => !namedCats.has(cat) && (categories[cat] || []).length);
+    if(wildcardCats.length){
+      const wildcardCat = wildcardCats[Math.floor(Math.random() * wildcardCats.length)];
+      const wildcardPick = pickFrom(categories, [wildcardCat]);
+      if(wildcardPick) picks.push(wildcardPick);
+    }
+
+    if(!picks.length) return;
+
+    grid.innerHTML = '';
+    const portfolioIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => entry.target.classList.toggle('in', entry.isIntersecting));
+    }, { threshold: 0.2 });
+
+    picks.forEach((img, i) => {
+      const tile = document.createElement('div');
+      tile.className = 'portfolio-tile reveal-delay-' + ((i % 4) + 1);
+      const frame = document.createElement('div');
+      frame.className = 'portfolio-tile-frame';
+      const el = document.createElement('img');
+      el.className = 'parallax';
+      el.src = img.thumbnail;
+      el.alt = img.alt;
+      el.loading = 'lazy';
+      el.decoding = 'async';
+      if(img.width && img.height){ el.width = img.width; el.height = img.height; }
+      frame.appendChild(el);
+      tile.appendChild(frame);
+      grid.appendChild(tile);
+      portfolioIo.observe(tile);
+    });
+    updateParallax();
+  }).catch(() => { /* leave the static "New pieces coming soon" placeholders in place */ });
+})();
 </script>
 <script>
 (function(){
