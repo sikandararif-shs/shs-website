@@ -47,10 +47,13 @@ export async function onRequestGet(context) {
       const category = f.Category || "Uncategorized";
       if (!grouped[category]) grouped[category] = [];
 
+      const thumb = f.Image[0].thumbnails?.large;
       grouped[category].push({
         id: rec.id,
         url: f.Image[0].url,
-        thumbnail: f.Image[0].thumbnails?.large?.url || f.Image[0].url,
+        thumbnail: thumb?.url || f.Image[0].url,
+        width: thumb?.width || f.Image[0].width,
+        height: thumb?.height || f.Image[0].height,
         alt: f["Alt Text"] || `${category} — SHS Enterprises manufacturing`,
         caption: f["Caption"] || "",
         featured: !!f.Featured

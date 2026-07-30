@@ -66,10 +66,6 @@
 
   .dark-section{background:linear-gradient(160deg, var(--red-deep), var(--ink)); color:var(--paper); position:relative;}
 
-  .journey-navy{
-    background:linear-gradient(160deg, var(--navy), var(--ink)); color:var(--paper); position:relative;
-  }
-  .journey-navy .muted{color:var(--stone-light);}
   .starfield{
     position:absolute; inset:0; pointer-events:none;
     background-image:
@@ -88,7 +84,6 @@
     background-repeat:repeat; background-size:180px 180px;
     opacity:0.35;
   }
-  .navy-section{background:linear-gradient(160deg, var(--navy), var(--ink)); color:var(--paper); position:relative;}
   .section-fade-bottom::after{
     content:''; position:absolute; left:0; right:0; bottom:0; height:90px;
     background:linear-gradient(to bottom, transparent, var(--paper)); pointer-events:none;
@@ -105,10 +100,6 @@
     content:''; position:absolute; left:0; right:0; top:0; height:90px;
     background:linear-gradient(to top, transparent, var(--ink)); pointer-events:none;
   }
-  .fade-from-red::before{
-    content:''; position:absolute; left:0; right:0; top:0; height:90px;
-    background:linear-gradient(to top, transparent, var(--red-deep)); opacity:0.7; pointer-events:none;
-  }
   .fade-to-dark-sm::after{
     content:''; position:absolute; left:0; right:0; bottom:0; height:50px;
     background:linear-gradient(to bottom, transparent, var(--ink)); pointer-events:none;
@@ -117,7 +108,7 @@
     content:''; position:absolute; left:0; right:0; top:0; height:50px;
     background:linear-gradient(to top, transparent, var(--paper)); pointer-events:none;
   }
-  .dark-section .muted, .navy-section .muted{color:var(--stone-light);}
+  .dark-section .muted{color:var(--stone-light);}
   .muted{color:var(--stone);}
 
   .eyebrow{
@@ -172,7 +163,7 @@
     transition:all .35s ease;
     position:relative;
   }
-  .dark-section .btn-secondary, .navy-section .btn-secondary{border-color:var(--line-dark); color:var(--paper);}
+  .dark-section .btn-secondary{border-color:var(--line-dark); color:var(--paper);}
   .btn-secondary:hover{border-color:var(--red); color:var(--red);}
 
   .btn-pulse{
@@ -189,9 +180,6 @@
   .reveal-delay-2{transition-delay:.16s;}
   .reveal-delay-3{transition-delay:.24s;}
   .reveal-delay-4{transition-delay:.32s;}
-
-  .card-elevate{transition:transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease, border-color .45s ease;}
-  .card-elevate:hover{transform:translateY(-6px); box-shadow:0 30px 60px -25px rgba(10,10,10,0.25);}
 
   .counter{font-family:'Fraunces',serif; font-variant-numeric:tabular-nums;}
 
@@ -266,28 +254,47 @@
     .reveal{opacity:1; transform:none; transition:none;}
     .marquee-track{animation:none;}
     .btn-pulse{animation:none;}
+    .portfolio-tile{opacity:1; transform:none; transition:none;}
   }
 
   .nav-blur{backdrop-filter:blur(14px); background:rgba(250,250,250,0.85);}
-  .stat-card{border:1px solid var(--line-dark); background:rgba(250,250,250,0.03);}
 
-  .process-line{
-    position:absolute; left:27px; top:0; bottom:0; width:1px;
-    background:linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+  .techfile-stack{ position:relative; aspect-ratio:1/1; max-width:440px; margin:0 auto; }
+  .techfile-card{
+    position:absolute; width:70%; aspect-ratio:4/5; border-radius:16px; overflow:hidden;
+    box-shadow:0 40px 70px -28px rgba(10,10,10,0.35); border:1px solid var(--line);
+    background:var(--paper-dim);
   }
-
-  #journeyPath{ stroke-dasharray: 2600; stroke-dashoffset: 2600; transition: stroke-dashoffset 0.1s linear; }
-
-  .journey-label{
-    position:absolute; font-family:'Fraunces',serif; font-weight:500;
-    font-size:1.35rem; line-height:1.2; color:var(--paper);
-    opacity:0.2; transition:opacity .5s ease; max-width:200px;
-  }
-  .journey-label.right{ text-align:left; }
-  .journey-label.left{ text-align:right; }
+  .techfile-card img{ width:100%; height:114%; object-fit:cover; object-position:top; display:block; }
+  .techfile-card-back{ top:2%; left:0; transform:rotate(-7deg); z-index:1; }
+  .techfile-card-front{ bottom:2%; right:0; transform:rotate(5deg); z-index:2; }
   @media (max-width: 767px){
-    .journey-label{ font-size:1rem; max-width:130px; }
+    .techfile-stack{ max-width:300px; }
+    .techfile-card{ width:76%; }
   }
+
+  .portfolio-proof-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:1.25rem; }
+  @media (min-width: 768px){
+    .portfolio-proof-grid{ grid-template-columns:repeat(5, 1fr); gap:1.5rem; }
+  }
+  .portfolio-tile{
+    opacity:0; transform:translateY(26px);
+    transition:opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1);
+  }
+  .portfolio-tile.in{ opacity:1; transform:translateY(0); }
+  .portfolio-tile-frame{ aspect-ratio:4/5; border-radius:14px; overflow:hidden; background:var(--paper-dim); border:1px solid var(--line); }
+  .portfolio-tile-frame img{ width:100%; height:118%; object-fit:cover; display:block; }
+  .portfolio-tile-empty{
+    aspect-ratio:4/5; border-radius:14px; border:1px dashed var(--stone-light);
+    display:flex; align-items:center; justify-content:center; padding:1rem; text-align:center;
+    color:var(--stone); font-family:'JetBrains Mono',monospace; font-size:0.66rem;
+  }
+
+  .numbers-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:1.25rem; }
+  @media (min-width: 768px){
+    .numbers-grid{ grid-template-columns:repeat(4, 1fr); gap:1.5rem; }
+  }
+  .numbers-card{ border:1px solid var(--line); border-radius:20px; padding:2.25rem 1.5rem; background:var(--paper-dim); }
 
   .wa-float{
     position:fixed; bottom:24px; right:24px; z-index:50;
@@ -521,177 +528,69 @@
   </div>
 </section>
 
-<section id="journey" class="relative py-10 px-6 md:px-10 journey-navy section-fade-bottom fade-from-red overflow-hidden">
-  <div class="starfield"></div>
-  <div class="grain"></div>
-  <div class="max-w-3xl mx-auto text-center relative py-10">
-    <p class="eyebrow mb-4" style="color:var(--gold)">The Journey</p>
-    <h2 class="font-display text-3xl md:text-4xl">Concept in. Empire out. We handle everything between.</h2>
-  </div>
-  <div class="max-w-4xl mx-auto relative" id="journeyWrap">
-    <svg viewBox="0 0 800 1400" class="w-full h-auto" style="max-height:900px;">
-      <path id="journeyPath" d="M400 20 C 550 100, 250 220, 400 320 S 550 520, 400 620 S 250 820, 400 920 S 550 1120, 400 1220 S 300 1350, 400 1380"
-        fill="none" stroke="var(--red)" stroke-width="4" stroke-linecap="round"/>
-    </svg>
-    <div id="journeyLabels" class="absolute inset-0 pointer-events-none"></div>
+<section id="techfile-proof" class="py-28 md:py-40 px-6 md:px-10 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center">
+    <div class="reveal">
+      <p class="eyebrow mb-5" style="color:var(--red)">Techfiles</p>
+      <h2 class="font-display font-bold text-4xl md:text-6xl leading-[1.1] mb-8">Every techfile tells the truth before a single sample gets cut.</h2>
+      <p class="muted text-lg leading-relaxed mb-10 max-w-lg">Your headache ends here. Every techfile is exact and clear, nothing hidden. So every decision moving forward is backed by real data, not guesswork, and your brand keeps moving instead of getting stuck.</p>
+      <a href="services" class="btn-primary">More services →</a>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="techfile-stack">
+        <div class="techfile-card techfile-card-back">
+          <img class="parallax" src="assets/techfiles/tech-file-denim-shorts.png" alt="SHS Enterprises technical file for rhinestone spray blast denim shorts, showing front and back photos, construction detail callouts, and measurements" width="1122" height="1402" loading="lazy" decoding="async">
+        </div>
+        <div class="techfile-card techfile-card-front">
+          <img class="parallax" src="assets/techfiles/tech-file-gothic-eyelid-hoodie.png" alt="SHS Enterprises technical file for a gothic eyelid zip hoodie, showing front and back photos, construction detail callouts, and measurements" width="1122" height="1402" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section id="difference" class="py-24 md:py-32 px-6 md:px-10">
+<section id="portfolio-proof" class="py-28 md:py-40 px-6 md:px-10 relative" style="background:var(--paper-dim);">
   <div class="max-w-7xl mx-auto">
-    <p class="eyebrow reveal mb-5" style="color:var(--red)">Our Difference</p>
-    <h2 class="reveal font-display text-4xl md:text-5xl leading-tight max-w-2xl mb-16">
-      A factory ships garments. SHS ships outcomes.
-    </h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="reveal reveal-delay-1 rounded-2xl p-9 md:p-10 border" style="border-color:var(--line);">
-        <p class="eyebrow muted mb-6">Traditional Manufacturer</p>
-        <ul class="space-y-4 text-[1.02rem] muted">
-          <li class="flex gap-3"><span>—</span><span>Waits for your spec sheet</span></li>
-          <li class="flex gap-3"><span>—</span><span>Manufactures, ships, disappears</span></li>
-          <li class="flex gap-3"><span>—</span><span>No opinion on pricing or positioning</span></li>
-          <li class="flex gap-3"><span>—</span><span>High MOQs built for bulk, not brands</span></li>
-        </ul>
-      </div>
-      <div class="reveal reveal-delay-2 rounded-2xl p-9 md:p-10 relative text-white" style="background:linear-gradient(155deg, var(--red-deep), var(--red)); box-shadow:0 40px 80px -30px rgba(201,2,1,0.4);">
-        <p class="eyebrow mb-6" style="color:rgba(250,250,250,0.75)">SHS Enterprises</p>
-        <ul class="space-y-4 text-[1.02rem]">
-          <li class="flex gap-3"><span>✓</span><span>Starts with trend and audience analysis</span></li>
-          <li class="flex gap-3"><span>✓</span><span>Stays on for pricing, launch and sales strategy</span></li>
-          <li class="flex gap-3"><span>✓</span><span>Advises on budget allocation and marketing</span></li>
-          <li class="flex gap-3"><span>✓</span><span>Low MOQ, from as few as 50 pieces</span></li>
-        </ul>
-      </div>
+    <div class="reveal max-w-3xl mb-16 md:mb-20">
+      <p class="eyebrow mb-5" style="color:var(--red)">Portfolio</p>
+      <h2 class="font-display text-4xl md:text-5xl leading-tight">We don't do basic tees. We build pieces worth building a brand around.</h2>
+    </div>
+    <div id="portfolioProofGrid" class="portfolio-proof-grid">
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+      <div class="portfolio-tile-empty">New pieces coming soon</div>
+    </div>
+    <div class="reveal text-center mt-14 md:mt-16">
+      <a href="portfolio" class="btn-primary">See the full portfolio →</a>
     </div>
   </div>
 </section>
 
-<section id="process" class="py-24 md:py-32 px-6 md:px-10" style="background:var(--paper-dim);">
-  <div class="max-w-5xl mx-auto">
-    <p class="eyebrow reveal mb-5" style="color:var(--red)">How It Works</p>
-    <h2 class="reveal font-display text-4xl md:text-5xl leading-tight mb-20">From first sketch to repeat customer.</h2>
-    <div class="relative pl-16">
-      <div class="process-line"></div>
-      <div class="space-y-14" id="processList">
-      <div class="reveal reveal-delay-1 relative flex gap-8 items-start">
-      <div class="absolute -left-16 w-14 h-14 rounded-full flex items-center justify-center font-mono text-sm" style="background:var(--red); color:var(--paper);">01</div>
-      <div><h3 class="font-display text-2xl mb-2">Discover</h3><p class="muted max-w-lg">We learn your brand, audience and category before a single sample is cut.</p></div>
-    </div>
-    <div class="reveal reveal-delay-2 relative flex gap-8 items-start">
-      <div class="absolute -left-16 w-14 h-14 rounded-full flex items-center justify-center font-mono text-sm" style="background:var(--red); color:var(--paper);">02</div>
-      <div><h3 class="font-display text-2xl mb-2">Strategy</h3><p class="muted max-w-lg">Trend analysis, budget allocation and pricing strategy, mapped to your goals.</p></div>
-    </div>
-    <div class="reveal reveal-delay-3 relative flex gap-8 items-start">
-      <div class="absolute -left-16 w-14 h-14 rounded-full flex items-center justify-center font-mono text-sm" style="background:var(--red); color:var(--paper);">03</div>
-      <div><h3 class="font-display text-2xl mb-2">Sampling</h3><p class="muted max-w-lg">Production-ready samples, refined until they represent the brand you want to build.</p></div>
-    </div>
-    <div class="reveal reveal-delay-4 relative flex gap-8 items-start">
-      <div class="absolute -left-16 w-14 h-14 rounded-full flex items-center justify-center font-mono text-sm" style="background:var(--red); color:var(--paper);">04</div>
-      <div><h3 class="font-display text-2xl mb-2">Manufacturing</h3><p class="muted max-w-lg">Low-MOQ production, run for early and growth-stage brands, not bulk retailers.</p></div>
-    </div>
-    <div class="reveal reveal-delay-1 relative flex gap-8 items-start">
-      <div class="absolute -left-16 w-14 h-14 rounded-full flex items-center justify-center font-mono text-sm" style="background:var(--red); color:var(--paper);">05</div>
-      <div><h3 class="font-display text-2xl mb-2">Quality Control</h3><p class="muted max-w-lg">Every run checked against a clear, agreed standard before it leaves the floor.</p></div>
-    </div>
-    <div class="reveal reveal-delay-2 relative flex gap-8 items-start">
-      <div class="absolute -left-16 w-14 h-14 rounded-full flex items-center justify-center font-mono text-sm" style="background:var(--red); color:var(--paper);">06</div>
-      <div><h3 class="font-display text-2xl mb-2">Delivery</h3><p class="muted max-w-lg">On-time dispatch, tracked and communicated the whole way.</p></div>
-    </div>
-    <div class="reveal reveal-delay-3 relative flex gap-8 items-start">
-      <div class="absolute -left-16 w-14 h-14 rounded-full flex items-center justify-center font-mono text-sm" style="background:var(--red); color:var(--paper);">07</div>
-      <div><h3 class="font-display text-2xl mb-2">Brand Growth</h3><p class="muted max-w-lg">Launch strategy, marketing support and sales strategy — so the next run is smarter than the last.</p></div>
-    </div>
-    </div>
-    </div>
-  </div>
-</section>
-
-<section id="quality" class="py-24 md:py-32 px-6 md:px-10 dark-section section-fade-bottom section-fade-top relative overflow-hidden">
-  <div class="grain"></div>
-  <div class="max-w-6xl mx-auto relative">
-    <p class="eyebrow reveal mb-5" style="color:var(--gold)">Quality Control</p>
-    <h2 class="reveal font-display text-4xl md:text-5xl leading-tight max-w-2xl mb-16">Three checks. Every single run.</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="reveal reveal-delay-1 rounded-2xl p-8" style="background:rgba(250,250,250,0.05); border:1px solid var(--line-dark);">
-        <p class="counter text-3xl mb-3" style="color:var(--gold)">01</p>
-        <h3 class="font-display text-xl mb-3">Floor Incharge</h3>
-        <p class="muted text-sm leading-relaxed">Every piece is checked on the production line, before it ever leaves the floor.</p>
+<section id="real-numbers" class="py-28 md:py-40 px-6 md:px-10 relative">
+  <div class="max-w-6xl mx-auto text-center">
+    <p class="reveal mb-16 md:mb-20 font-mono text-sm" style="color:var(--stone); letter-spacing:0.08em;">The numbers behind better decisions.</p>
+    <div class="numbers-grid">
+      <div class="numbers-card reveal reveal-delay-1">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="50" data-suffix="">0</p>
+        <p class="muted">Pieces, minimum order quantity.</p>
       </div>
-      <div class="reveal reveal-delay-2 rounded-2xl p-8" style="background:rgba(250,250,250,0.05); border:1px solid var(--line-dark);">
-        <p class="counter text-3xl mb-3" style="color:var(--gold)">02</p>
-        <h3 class="font-display text-xl mb-3">Co-Founder Inspection</h3>
-        <p class="muted text-sm leading-relaxed">A second, personal check — one of SHS's co-founders reviews the run directly, not delegated to a distant QA team.</p>
+      <div class="numbers-card reveal reveal-delay-2">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="45" data-prefix="25 to " data-suffix=" days">0</p>
+        <p class="muted">Concept to delivery.</p>
       </div>
-      <div class="reveal reveal-delay-3 rounded-2xl p-8" style="background:rgba(250,250,250,0.05); border:1px solid var(--line-dark);">
-        <p class="counter text-3xl mb-3" style="color:var(--paper)">03</p>
-        <h3 class="font-display text-xl mb-3">Your Own QC</h3>
-        <p class="muted text-sm leading-relaxed">Full visibility to run your own quality check on top of ours — nothing hidden, nothing rushed.</p>
+      <div class="numbers-card reveal reveal-delay-3">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="38" data-suffix="">0</p>
+        <p class="muted">Brands delivered to date.</p>
+      </div>
+      <div class="numbers-card reveal reveal-delay-4">
+        <p class="counter text-4xl md:text-5xl mb-3" data-count="30" data-suffix="%">0</p>
+        <p class="muted">Average gross margin gain reported by 17 active brands using our strategy services.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="solutions" class="py-24 md:py-32 px-6 md:px-10">
-  <div class="max-w-7xl mx-auto">
-    <p class="eyebrow reveal mb-5" style="color:var(--red)">What We Do</p>
-    <h2 class="reveal font-display text-4xl md:text-5xl leading-tight max-w-2xl mb-16">Two disciplines. One outcome.</h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="reveal reveal-delay-1 card-elevate rounded-2xl p-10 border" style="border-color:var(--line);">
-        <p class="eyebrow muted mb-4">01 — Foundation</p>
-        <h3 class="font-display text-2xl md:text-3xl mb-5">Manufacturing Solutions</h3>
-        <ul class="space-y-3 text-[0.98rem] muted">
-          <li>Low-MOQ apparel production, from 50 pieces</li>
-          <li>Sampling & product development</li>
-          <li>Fabric & trim sourcing</li>
-          <li>3-layer quality control</li>
-        </ul>
-      </div>
-      <div class="reveal reveal-delay-2 card-elevate rounded-2xl p-10 text-white relative overflow-hidden" style="background:var(--ink);">
-        <div class="grain"></div>
-        <p class="eyebrow mb-4" style="color:var(--gold)">02 — Where brands actually grow</p>
-        <h3 class="font-display text-2xl md:text-3xl mb-5">Brand Growth Solutions</h3>
-        <ul class="space-y-3 text-[0.98rem]" style="color:var(--stone-light)">
-          <li>Trend & demand analysis</li>
-          <li>Budget optimization & pricing strategy</li>
-          <li>Marketing & brand positioning</li>
-          <li>Launch & sales strategy</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="results" class="py-24 md:py-32 px-6 md:px-10 navy-section section-fade-bottom section-fade-top relative">
-  <div class="max-w-7xl mx-auto text-center">
-    <p class="eyebrow reveal mb-5" style="color:var(--gold)">Business Results</p>
-    <h2 class="reveal font-display text-4xl md:text-5xl leading-tight mb-16 max-w-2xl mx-auto">Outcomes we help brands work toward.</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="reveal reveal-delay-1 stat-card rounded-2xl p-10">
-        <p class="counter text-5xl mb-3" data-count="30" data-suffix="%">0</p>
-        <p class="muted">Average margin reclaimed through smarter budget allocation</p>
-      </div>
-      <div class="reveal reveal-delay-2 stat-card rounded-2xl p-10">
-        <p class="counter text-5xl mb-3" data-count="50" data-suffix="">0</p>
-        <p class="muted">Units minimum order quantity — accessible from day one</p>
-      </div>
-      <div class="reveal reveal-delay-3 stat-card rounded-2xl p-10">
-        <p class="counter text-5xl mb-3" data-count="78" data-suffix="%">0</p>
-        <p class="muted">Of early-stage brands return to us. The rest don't trust the process and leave by month 5.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-24 md:py-32 px-6 md:px-10 relative overflow-hidden" style="background:var(--paper-dim);">
-  <div class="max-w-4xl mx-auto text-center relative">
-    <p class="eyebrow reveal mb-5" style="color:var(--red)">Our Commitment to Fashion Startups of Pakistan and the World</p>
-    <h2 class="reveal font-display text-4xl md:text-5xl leading-[1.15] mb-8">
-      We only charge for manufacturing your inventory.<br>Everything else is free.
-    </h2>
-    <p class="reveal reveal-delay-1 muted text-lg max-w-xl mx-auto mb-10">
-      Trend analysis, pricing strategy, marketing, budget optimization, launch and sales strategy — all included, never billed separately. We built it this way for one reason: to never let a promising brand fail for lack of support it couldn't afford.
-    </p>
-    <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="reveal reveal-delay-2 btn-primary">Schedule a Meeting →</a>
+    <p class="reveal muted text-lg max-w-2xl mx-auto mt-16 md:mt-20 leading-relaxed">83% of the brands we take on stay with us. The rest usually left because they picked a partner who looked like a low MOQ manufacturer but wasn't one.</p>
+    <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="reveal btn-primary mt-10 inline-flex">Schedule a meeting →</a>
   </div>
 </section>
 
@@ -811,13 +710,14 @@ const cio = new IntersectionObserver((entries)=>{
     if(e.isIntersecting){
       const el = e.target;
       const target = parseFloat(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
       const suffix = el.dataset.suffix || '';
       const duration = 1400;
       const startTime = performance.now();
       function tick(now){
         const p = Math.min((now-startTime)/duration, 1);
         const eased = 1 - Math.pow(1-p, 3);
-        el.textContent = Math.round(target*eased) + suffix;
+        el.textContent = prefix + Math.round(target*eased) + suffix;
         if(p<1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
@@ -837,46 +737,97 @@ if(window.matchMedia('(hover: hover)').matches){
   document.addEventListener('mouseleave', ()=> glow.style.opacity = 0);
 }
 
-const journeySection = document.getElementById('journey');
-const journeyPath = document.getElementById('journeyPath');
-const journeyLabelsWrap = document.getElementById('journeyLabels');
-const stopLabels = ["Concept","Brand Positioning","Pricing Strategy","Marketing Direction","Budget Optimization","Production","Sales Strategy","Growth"];
-const stopYs = [40,220,400,580,760,940,1120,1300]; // out of 1400 viewBox height
-stopLabels.forEach((label,i)=>{
-  const d = document.createElement('div');
-  const isRight = i % 2 === 0;
-  d.className = 'journey-label ' + (isRight ? 'right' : 'left');
-  d.style.top = (stopYs[i] / 1400 * 100) + '%';
-  if(isRight){ d.style.left = '58%'; } else { d.style.right = '58%'; }
-  d.textContent = label;
-  journeyLabelsWrap.appendChild(d);
-});
-function updateJourney(){
-  const rect = journeySection.getBoundingClientRect();
-  const vh = window.innerHeight;
-  const total = rect.height + vh;
-  const progressed = Math.min(Math.max(vh - rect.top, 0), total);
-  const pct = Math.min(progressed / total, 1);
-  journeyPath.style.strokeDashoffset = 2600 - (2600 * pct);
-  const labels = journeyLabelsWrap.querySelectorAll('.journey-label');
-  labels.forEach((el)=>{
-    const labelRect = el.getBoundingClientRect();
-    // Light up once the label has actually scrolled into the upper two-thirds of the
-    // viewport, instead of a global percentage that activated the last label far too late.
-    const inView = labelRect.top < vh * 0.7 && labelRect.bottom > 0;
-    el.style.opacity = inView ? '1' : '0.55';
-  });
-}
-window.addEventListener('scroll', updateJourney, { passive:true });
-updateJourney();
-
-// Client logos, process steps, and FAQ are now static HTML (for crawlability) —
-// this just wires up the FAQ accordion clicks and scroll-reveal on that static content.
+// Client logos and FAQ are static HTML (for crawlability) — this just wires up
+// the FAQ accordion clicks and scroll-reveal on that static content.
 document.querySelectorAll('#faqList .accordion-item').forEach(item => {
   item.querySelector('button').addEventListener('click', () => item.classList.toggle('open'));
   io.observe(item);
 });
-document.querySelectorAll('#processList > div').forEach(row => io.observe(row));
+
+// Gentle parallax on the techfile and portfolio images — a live HTMLCollection so
+// images injected later (portfolio proof) are picked up automatically.
+const parallaxEls = document.getElementsByClassName('parallax');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let parallaxTicking = false;
+function updateParallax(){
+  const vh = window.innerHeight;
+  Array.prototype.forEach.call(parallaxEls, el => {
+    const rect = el.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const offset = Math.max(-18, Math.min(18, ((center - vh / 2) / vh) * 32));
+    el.style.transform = `translateY(${offset.toFixed(1)}px)`;
+  });
+  parallaxTicking = false;
+}
+if(!reduceMotion){
+  window.addEventListener('scroll', () => {
+    if(!parallaxTicking){ requestAnimationFrame(updateParallax); parallaxTicking = true; }
+  }, { passive:true });
+  window.addEventListener('resize', updateParallax);
+  updateParallax();
+}
+
+// Portfolio proof — pulls five live images from the same /api/portfolio endpoint the
+// Portfolio page uses, one each from the tee, hoodie, jogger and denim categories plus
+// one wildcard category, re-shuffled on every load. Each tile fades in and back out
+// individually as it crosses the viewport, rather than all together.
+(function(){
+  const grid = document.getElementById('portfolioProofGrid');
+  if(!grid) return;
+
+  const teeCats = ['Washed Oversized Tees', 'Graphic/Puff/Embroidery/Screen Printed Tees', 'Spray Tees'];
+  const hoodieCats = ['Spray & Garment Washed Hoodies'];
+  const joggerCats = ['French Terry & Jersey Shorts, Joggers & Trousers'];
+  const denimCats = ['Denim Bottoms'];
+  const namedCats = new Set([...teeCats, ...hoodieCats, ...joggerCats, ...denimCats]);
+
+  function pickFrom(categories, catList){
+    const pool = [];
+    catList.forEach(cat => (categories[cat] || []).forEach(img => pool.push(img)));
+    if(!pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  fetch('/api/portfolio').then(res => res.ok ? res.json() : Promise.reject()).then(data => {
+    const categories = data.categories || {};
+    const picks = [teeCats, hoodieCats, joggerCats, denimCats]
+      .map(catList => pickFrom(categories, catList))
+      .filter(Boolean);
+
+    const wildcardCats = Object.keys(categories).filter(cat => !namedCats.has(cat) && (categories[cat] || []).length);
+    if(wildcardCats.length){
+      const wildcardCat = wildcardCats[Math.floor(Math.random() * wildcardCats.length)];
+      const wildcardPick = pickFrom(categories, [wildcardCat]);
+      if(wildcardPick) picks.push(wildcardPick);
+    }
+
+    if(!picks.length) return;
+
+    grid.innerHTML = '';
+    const portfolioIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => entry.target.classList.toggle('in', entry.isIntersecting));
+    }, { threshold: 0.2 });
+
+    picks.forEach((img, i) => {
+      const tile = document.createElement('div');
+      tile.className = 'portfolio-tile reveal-delay-' + ((i % 4) + 1);
+      const frame = document.createElement('div');
+      frame.className = 'portfolio-tile-frame';
+      const el = document.createElement('img');
+      el.className = 'parallax';
+      el.src = img.thumbnail;
+      el.alt = img.alt;
+      el.loading = 'lazy';
+      el.decoding = 'async';
+      if(img.width && img.height){ el.width = img.width; el.height = img.height; }
+      frame.appendChild(el);
+      tile.appendChild(frame);
+      grid.appendChild(tile);
+      portfolioIo.observe(tile);
+    });
+    updateParallax();
+  }).catch(() => { /* leave the static "New pieces coming soon" placeholders in place */ });
+})();
 </script>
 <script>
 (function(){
