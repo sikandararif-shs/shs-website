@@ -8,39 +8,42 @@
 const BASE_ID = "applLqc9DL2932xAm";
 const TABLE_ID = "tblJYQJfU5ywsci3D"; // Portfolio table
 
-// Category field value on the Portfolio table (option id selfDmxwlMwNfvLlb).
-const CATEGORY_NAME = "Spray & Garment Washed Hoodies";
+// Record IDs for the 5 "Spray & Garment Washed Hoodies" category items (option id
+// selfDmxwlMwNfvLlb), fetched directly by ID at request time — same technique as
+// fetchImageRecords in oversized-t-shirt-manufacturer.js. Attachment URLs are signed and
+// expire, so only the stable record IDs are stored here, never the URLs themselves.
+const IMAGE_IDS = [
+  "recLlPGwWxib18ZlM", // Acid Dip Hoodies
+  "recfK8xKlIPEBnAY2", // Diesel Washed Hoodies
+  "recl3tql4nN1b6NrY", // Spray Hoodies
+  "recrnUHjhhASFbpEI", // Acid Washed Hoodie
+  "reczxg9jS6aZi9DFq"  // Tiger Print Washed Hoodie
+];
 
 function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-// Same fetch-all-then-filter approach as portfolio.js's fetchPortfolioData — paginates
-// through the whole Portfolio table and keeps only records in this category, rather than
-// relying on a server-side filterByFormula.
-async function fetchHoodieImages(token) {
+async function fetchHoodieImages(token, ids) {
   const results = [];
-  let offset = null;
-  do {
-    const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`);
-    if (offset) url.searchParams.set("offset", offset);
-    const res = await fetch(url.toString(), { headers: { Authorization: `Bearer ${token}` } });
-    if (!res.ok) throw new Error(`Airtable API error: ${res.status}`);
-    const data = await res.json();
-    for (const rec of data.records) {
-      const f = rec.fields;
-      if (f.Category !== CATEGORY_NAME) continue;
-      if (!f.Image || !f.Image.length) continue;
+  await Promise.all(ids.map(async (id) => {
+    try {
+      const res = await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const f = data.fields;
+      if (!f.Image || !f.Image.length) return;
       const thumb = f.Image[0].thumbnails?.large;
-      results.push({
+      results[ids.indexOf(id)] = {
         url: thumb?.url || f.Image[0].url,
         fullUrl: f.Image[0].url,
         width: thumb?.width || f.Image[0].width,
         height: thumb?.height || f.Image[0].height,
         alt: f["Alt Text"] || "SHS Enterprises custom hoodie manufacturing"
-      });
-    }
-    offset = data.offset;
-  } while (offset);
-  return results;
+      };
+    } catch (e) { /* skip this image — page still renders without it */ }
+  }));
+  return results.filter(Boolean);
 }
 
 function renderFinishGrid(images) {
@@ -68,7 +71,7 @@ export async function onRequestGet(context) {
 
   if (token) {
     try {
-      images = await fetchHoodieImages(token);
+      images = await fetchHoodieImages(token, IMAGE_IDS);
       dataFetchOk = true;
     } catch (e) { /* fall through with no images — page still renders with copy */ }
   }
@@ -181,12 +184,63 @@ export async function onRequestGet(context) {
     position:fixed; top:0; right:0; bottom:0; z-index:70;
     width:280px; max-width:80vw;
     transform:translateX(100%); transition:transform .4s cubic-bezier(.2,.8,.2,1);
-    background:var(--ink); padding-top:100px; overflow-y:auto;
+    background:linear-gradient(160deg, var(--navy), var(--ink)); padding-top:100px; overflow-y:auto;
     box-shadow:-10px 0 40px -10px rgba(0,0,0,0.5);
   }
   .mobile-menu.open{ transform:translateX(0); }
-  .mobile-menu-inner{ padding:1.5rem 2rem 2rem; display:flex; flex-direction:column; gap:1.4rem; }
+  .mobile-menu .starfield{
+    position:absolute; inset:0; pointer-events:none;
+    background-image:
+      radial-gradient(1.5px 1.5px at 10% 20%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 25% 65%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 40% 15%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 70% 35%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 15% 85%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 90% 90%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 33% 45%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 78% 20%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1.5px 1.5px at 5% 55%, rgba(255,255,255,0.6), transparent);
+    background-repeat:repeat; background-size:180px 180px; opacity:0.35;
+  }
+  .mobile-menu-inner{ position:relative; z-index:1; padding:1.5rem 2rem 2rem; display:flex; flex-direction:column; gap:1.4rem; }
   .mobile-menu-inner a{ font-size:1.1rem; font-weight:500; color:var(--paper); }
+  .mobile-menu-close{
+    position:absolute; top:18px; right:18px; z-index:2;
+    width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+    background:none; border:none; color:var(--paper); font-size:1.35rem; line-height:1; cursor:pointer;
+  }
+  .mobile-menu-backdrop{
+    position:fixed; inset:0; z-index:65; background:rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease;
+  }
+  .mobile-menu-backdrop.open{ opacity:1; visibility:visible; }
+  .mobile-nav-item{ display:flex; flex-direction:column; }
+  .mobile-nav-row{ display:flex; align-items:center; justify-content:space-between; gap:0.75rem; }
+  .mobile-nav-toggle{
+    background:none; border:none; color:var(--paper); cursor:pointer;
+    padding:0.25rem; font-size:0.85rem; display:flex; align-items:center; justify-content:center;
+    transition:transform .3s ease;
+  }
+  .mobile-nav-item.open .mobile-nav-toggle{ transform:rotate(180deg); }
+  .mobile-submenu{ max-height:0; overflow:hidden; transition:max-height .35s ease; display:flex; flex-direction:column; gap:0.7rem; padding-left:1rem; }
+  .mobile-nav-item.open .mobile-submenu{ max-height:200px; margin-top:0.8rem; }
+  .mobile-menu-inner .mobile-submenu a{ font-size:0.95rem; font-weight:400; color:var(--stone-light); }
+  .nav-dropdown{ position:relative; }
+  .nav-dropdown-menu{
+    position:absolute; top:100%; left:0; margin-top:0.9rem; min-width:210px;
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 20px 40px -15px rgba(10,10,10,0.25);
+    padding:0.4rem; opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .25s ease, transform .25s ease, visibility .25s ease;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .nav-dropdown-link{ display:block; padding:0.6rem 0.9rem; border-radius:8px; font-size:0.85rem; font-weight:500; color:var(--ink); white-space:nowrap; }
+  .nav-dropdown-link:hover{ background:var(--paper-dim); color:var(--red); }
   @media (max-width: 767px){ .hamburger{ display:flex; } }
 
   header{ transition:transform .3s ease; }
@@ -201,7 +255,13 @@ export async function onRequestGet(context) {
     <span class="md:hidden font-bold" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:1.15rem; letter-spacing:0.04em; color:var(--red);">SHS</span>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
       <a href="/" class="hover:text-[var(--red)]">Home</a>
-      <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+      <div class="nav-dropdown">
+        <a href="portfolio" class="hover:text-[var(--red)] inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="nav-dropdown-menu">
+          <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
+          <a href="/custom-hoodie-manufacturer" class="nav-dropdown-link" style="color:var(--red)">Hoodies</a>
+        </div>
+      </div>
       <a href="services" class="hover:text-[var(--red)]">Services</a>
       <a href="about" class="hover:text-[var(--red)]">About</a>
       <a href="blog" class="hover:text-[var(--red)]">Blog</a>
@@ -213,10 +273,22 @@ export async function onRequestGet(context) {
   </div>
 </header>
 
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
 <div class="mobile-menu" id="mobileMenu">
+  <div class="starfield"></div>
+  <button type="button" class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
   <div class="mobile-menu-inner">
     <a href="/">Home</a>
-    <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+    <div class="mobile-nav-item">
+      <div class="mobile-nav-row">
+        <a href="portfolio" class="hover:text-[var(--red)]">Portfolio</a>
+        <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="mobile-submenu">
+        <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
+        <a href="/custom-hoodie-manufacturer" style="color:var(--red)">Hoodies</a>
+      </div>
+    </div>
     <a href="services" class="hover:text-[var(--red)]">Services</a>
     <a href="about" class="hover:text-[var(--red)]">About</a>
     <a href="blog" class="hover:text-[var(--red)]">Blog</a>
@@ -379,9 +451,34 @@ document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLightb
 (function(){
   const btn = document.getElementById('hamburgerBtn');
   const menu = document.getElementById('mobileMenu');
+  const closeBtn = document.getElementById('mobileMenuClose');
+  const backdrop = document.getElementById('mobileMenuBackdrop');
   if(!btn || !menu) return;
-  btn.addEventListener('click', () => { btn.classList.toggle('open'); menu.classList.toggle('open'); });
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { btn.classList.remove('open'); menu.classList.remove('open'); }));
+  function openMenu(){
+    btn.classList.add('open');
+    menu.classList.add('open');
+    if(backdrop) backdrop.classList.add('open');
+  }
+  function closeMenu(){
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+    if(backdrop) backdrop.classList.remove('open');
+  }
+  btn.addEventListener('click', () => {
+    menu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeMenu);
+  if(backdrop) backdrop.addEventListener('click', closeMenu);
+  menu.querySelectorAll('.mobile-nav-toggle').forEach(t => {
+    t.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const item = t.closest('.mobile-nav-item');
+      if(!item) return;
+      const open = item.classList.toggle('open');
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 })();
 
 </script>
