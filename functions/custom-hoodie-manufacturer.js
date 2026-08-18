@@ -8,24 +8,26 @@
 const BASE_ID = "applLqc9DL2932xAm";
 const TABLE_ID = "tblJYQJfU5ywsci3D"; // Portfolio table
 
-// Category field value on the Portfolio table (option id selfDmxwlMwNfvLlb) — Airtable
-// formulas compare select fields against their display text, so we filter on the name.
+// Category field value on the Portfolio table (option id selfDmxwlMwNfvLlb).
 const CATEGORY_NAME = "Spray & Garment Washed Hoodies";
 
 function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
+// Same fetch-all-then-filter approach as portfolio.js's fetchPortfolioData — paginates
+// through the whole Portfolio table and keeps only records in this category, rather than
+// relying on a server-side filterByFormula.
 async function fetchHoodieImages(token) {
   const results = [];
   let offset = null;
   do {
     const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`);
-    url.searchParams.set("filterByFormula", `{Category}="${CATEGORY_NAME}"`);
     if (offset) url.searchParams.set("offset", offset);
     const res = await fetch(url.toString(), { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) throw new Error(`Airtable API error: ${res.status}`);
     const data = await res.json();
     for (const rec of data.records) {
       const f = rec.fields;
+      if (f.Category !== CATEGORY_NAME) continue;
       if (!f.Image || !f.Image.length) continue;
       const thumb = f.Image[0].thumbnails?.large;
       results.push({
