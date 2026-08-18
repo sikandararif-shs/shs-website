@@ -8,22 +8,22 @@
 const BASE_ID = "applLqc9DL2932xAm";
 const TABLE_ID = "tblJYQJfU5ywsci3D"; // Portfolio table
 
-// Record IDs for the 5 "Spray & Garment Washed Hoodies" category items (option id
-// selfDmxwlMwNfvLlb), fetched directly by ID at request time — same technique as
-// fetchImageRecords in oversized-t-shirt-manufacturer.js. Attachment URLs are signed and
-// expire, so only the stable record IDs are stored here, never the URLs themselves.
-const IMAGE_IDS = [
-  "recLlPGwWxib18ZlM", // Acid Dip Hoodies
-  "recfK8xKlIPEBnAY2", // Diesel Washed Hoodies
-  "recl3tql4nN1b6NrY", // Spray Hoodies
-  "recrnUHjhhASFbpEI", // Acid Washed Hoodie
-  "reczxg9jS6aZi9DFq"  // Tiger Print Washed Hoodie
-];
+// Record IDs pulled from the Portfolio table, placed at fixed points in the page copy
+// below — same technique as fetchImageRecords in oversized-t-shirt-manufacturer.js.
+// Attachment URLs are signed and expire, so only the stable record IDs live here, never
+// the URLs themselves.
+const ACID_DIP_IMG = "recLlPGwWxib18ZlM";      // Acid Dip Hoodies
+const DIESEL_WASH_IMG = "recfK8xKlIPEBnAY2";   // Diesel Washed Hoodies
+const SPRAY_IMG = "recl3tql4nN1b6NrY";         // Spray Hoodies
+const ACID_WASH_IMG = "recrnUHjhhASFbpEI";     // Acid Washed Hoodie
+const TIGER_PRINT_IMG = "reczxg9jS6aZi9DFq";   // Tiger Print Washed Hoodie
+const SUBLIMATION_IMG = "recCA7F2HCgH0jre8";   // Polyester Fleece Sublimated Hoodies
+const IMAGE_IDS = [ACID_DIP_IMG, DIESEL_WASH_IMG, SPRAY_IMG, ACID_WASH_IMG, TIGER_PRINT_IMG, SUBLIMATION_IMG];
 
 function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-async function fetchHoodieImages(token, ids) {
-  const results = [];
+async function fetchImageRecords(token, ids) {
+  const results = {};
   await Promise.all(ids.map(async (id) => {
     try {
       const res = await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}/${id}`, {
@@ -34,7 +34,7 @@ async function fetchHoodieImages(token, ids) {
       const f = data.fields;
       if (!f.Image || !f.Image.length) return;
       const thumb = f.Image[0].thumbnails?.large;
-      results[ids.indexOf(id)] = {
+      results[id] = {
         url: thumb?.url || f.Image[0].url,
         fullUrl: f.Image[0].url,
         width: thumb?.width || f.Image[0].width,
@@ -43,20 +43,17 @@ async function fetchHoodieImages(token, ids) {
       };
     } catch (e) { /* skip this image — page still renders without it */ }
   }));
-  return results.filter(Boolean);
+  return results;
 }
 
-function renderFinishGrid(images) {
-  if (!images.length) {
-    return `<p class="muted leading-relaxed">New finish photos are added directly from our production floor — see the full gallery in the <a href="portfolio" style="color:var(--red)">Portfolio</a> in the meantime.</p>`;
-  }
-  return `<div class="finish-grid my-10">${images.map(img => `
-      <figure class="finish-item">
-        <div class="finish-img" data-lightbox-url="${esc(img.fullUrl)}" data-lightbox-alt="${esc(img.alt)}">
-          <img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}>
-        </div>
-        <figcaption class="finish-caption">${esc(img.alt)}</figcaption>
-      </figure>`).join('')}</div>`;
+function renderContentImage(img) {
+  if (!img) return '';
+  return `
+    <div class="content-img-wrap my-10">
+      <div class="content-img" data-lightbox-url="${esc(img.fullUrl)}" data-lightbox-alt="${esc(img.alt)}">
+        <img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}>
+      </div>
+    </div>`;
 }
 
 export async function onRequestGet(context) {
@@ -66,17 +63,17 @@ export async function onRequestGet(context) {
   if (cached) return cached;
 
   const token = context.env.AIRTABLE_TOKEN;
-  let images = [];
+  let images = {};
   let dataFetchOk = false;
 
   if (token) {
     try {
-      images = await fetchHoodieImages(token, IMAGE_IDS);
+      images = await fetchImageRecords(token, IMAGE_IDS);
       dataFetchOk = true;
     } catch (e) { /* fall through with no images — page still renders with copy */ }
   }
 
-  const ogImage = images[0]?.fullUrl || "https://www.shs-enterprises.com/assets/logo.png";
+  const ogImage = images[ACID_DIP_IMG]?.fullUrl || "https://www.shs-enterprises.com/assets/logo.png";
   const title = "Custom Hoodie Manufacturer";
   const description = "Low MOQ custom hoodie manufacturer for fashion brand. Pullover & kangaroo styles in acid wash, oil wash & spray finishes, Karachi, Pakistan, shipped worldwide.";
 
@@ -151,14 +148,6 @@ export async function onRequestGet(context) {
   .content-img img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease, opacity .4s ease; opacity:0; }
   .content-img img.loaded{ opacity:1; }
   .content-img:hover img{ transform:scale(1.05); }
-
-  .finish-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:1.5rem; }
-  .finish-item{ display:flex; flex-direction:column; }
-  .finish-img{ aspect-ratio:4/5; border-radius:14px; overflow:hidden; background:var(--paper-dim); border:1px solid var(--line); cursor:zoom-in; }
-  .finish-img img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease, opacity .4s ease; opacity:0; }
-  .finish-img img.loaded{ opacity:1; }
-  .finish-img:hover img{ transform:scale(1.05); }
-  .finish-caption{ font-size:0.8rem; color:var(--stone); margin-top:0.65rem; text-align:center; }
 
   #lightbox{
     position:fixed; inset:0; z-index:200; background:rgba(10,10,10,0.92);
@@ -314,6 +303,8 @@ export async function onRequestGet(context) {
 <div class="px-6 md:px-10">
   <div class="max-w-4xl mx-auto py-4">
 
+    ${renderContentImage(images[ACID_DIP_IMG])}
+
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">Acid Dip, Diesel Wash, Spray Finish — Real Techniques, Not Just Plain Fleece</h2>
       <p class="muted leading-relaxed mb-6">Anyone can sew a hoodie. Finishing is where the actual craft is, and it's where most low-MOQ manufacturers quietly cut corners because wash and spray processes are harder to control at small batch sizes. This is what we've actually put into production:</p>
@@ -324,11 +315,17 @@ export async function onRequestGet(context) {
         <li><strong style="color:var(--ink)">Acid Wash</strong> — produced for GenZ Drip (2025). A cleaner, more classic acid-wash treatment.</li>
         <li><strong style="color:var(--ink)">Tiger Print Wash</strong> — a tiger-print garment-washed hoodie, internal sampling, 2025. Pattern-driven wash work layered on top of garment dyeing.</li>
       </ul>
-
-      ${renderFinishGrid(images)}
-
       <p class="muted leading-relaxed"><a href="portfolio" style="color:var(--red)">See more finishes in the full Portfolio →</a></p>
     </section>
+
+    ${renderContentImage(images[DIESEL_WASH_IMG])}
+
+    <section class="py-10 md:py-14">
+      <h2 class="font-display text-3xl md:text-4xl mb-6">Sublimated Hoodies — Vibrant, Brand-Themed Prints on Polyester Fleece</h2>
+      <p class="muted leading-relaxed">Wash and spray finishes aren't the only route to a hoodie that doesn't look like everyone else's. On polyester fleece, dye-sublimation prints color and pattern directly into the fabric itself — not on top of it — so a full-coverage graphic, an all-over pattern, or a brand-specific colorway comes out vibrant and doesn't crack, fade, or peel the way a heavy screen print eventually does. It's a genuinely different route from the acid- and garment-wash finishes above, and it's especially suited to a brand that wants to build an entire themed line around one visual identity rather than a single hero print. We've put this into production too — a polyester fleece sublimated hoodie sampled for client work in 2023.</p>
+    </section>
+
+    ${renderContentImage(images[SUBLIMATION_IMG])}
 
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">Fabric Weight Matched to the Finish</h2>
@@ -340,10 +337,14 @@ export async function onRequestGet(context) {
       </ul>
     </section>
 
+    ${renderContentImage(images[SPRAY_IMG])}
+
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">Real Machinery, Not a Generic Claim</h2>
       <p class="muted leading-relaxed">The same production floor that builds our tees builds our hoodies — Juki single-needle lockstitch for main seaming, Siruba overlock for edge finishing, Jack flatlock for coverstitch hemming and drawstring casings, and Kansai Special for chain-stitch detailing on kangaroo pockets and hood panels. This is what's actually on our floor, not a stock description.</p>
     </section>
+
+    ${renderContentImage(images[ACID_WASH_IMG])}
 
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">Sourced From the Same Fabric Mills as the Names You Already Know</h2>
@@ -361,6 +362,8 @@ export async function onRequestGet(context) {
       <h2 class="font-display text-3xl md:text-4xl mb-6">Who This Is Actually Built For</h2>
       <p class="muted leading-relaxed">Streetwear and fashion labels that want a hoodie with an actual finish, not a blank — first-time founders testing a drop before committing to bulk, small-batch brands who need real photos and real production behind them, and anyone looking for a non-China manufacturing option without giving up quality or MOQ flexibility. Karachi-based, shipping worldwide.</p>
     </section>
+
+    ${renderContentImage(images[TIGER_PRINT_IMG])}
 
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">See It, Don't Just Read About It</h2>
