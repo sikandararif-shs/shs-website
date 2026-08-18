@@ -16,8 +16,8 @@ const CATEGORIES = [
     copy: "Graphic tees continue to be one of the strongest-selling categories for every modern fashion brand, making quality printing and garment construction essential. SHS manufactures premium boxy fit and dropped shoulder T-shirts with DTF printing, puff prints, high-density graphics, and detailed embroidery on T-shirts using low-MOQ production. Whether you're launching your first collection or expanding an existing label, our screen printing capabilities are built for brands that want standout designs without compromising quality." },
   { slug: "Sublimation Articles", h1: "Sublimation Articles — Polyester Manufacturing in Karachi",
     copy: "From basketball jerseys to tracksuits, SHS manufactures premium sublimation apparel using polyester interlock, bird eye mesh, polyester mesh, scuba fabric, and fleece-based performance materials. As a trusted sportswear manufacturer, we produce low-MOQ jackets, activewear, and teamwear with vibrant full-coverage sublimation prints that remain durable through repeated use. We also support emerging activewear brands with fabric recommendations and production guidance from sampling to bulk manufacturing." },
-  { slug: "Spray & Garment Washed Hoodies", h1: "Spray & Garment Washed Hoodies — Hoodies Manufacturer in Karachi",
-    copy: "Our washed hoodie collection combines premium construction with fashion-forward finishing techniques to create pieces that feel unique from the very first wear. SHS manufactures balaclava hoodies, kangaroo hoodies, zip-up hoodies, and pullovers using heavy GSM French Terry and cotton fleece with acid washing, diesel washing, spray finishes, and dip dyeing effects. Every wash is carefully controlled to achieve a premium vintage aesthetic while maintaining fabric durability." },
+  { slug: "Spray & Garment Washed Hoodies", h1: "Hoodies",
+    copy: "Our washed hoodie collection combines premium construction with fashion-forward finishing techniques to create pieces that feel unique from the very first wear. As a <a href=\"custom-hoodie-manufacturer\" style=\"color:var(--red)\">custom hoodie manufacturer</a> in Karachi, SHS produces balaclava hoodies, kangaroo hoodies, zip-up hoodies, and pullovers using heavy GSM French Terry and cotton fleece with acid washing, diesel washing, spray finishes, and dip dyeing effects. Every wash is carefully controlled to achieve a premium vintage aesthetic while maintaining fabric durability." },
   { slug: "Washed Oversized Tees", h1: "Oversized T-Shirt Manufacturer in Karachi — Ring-Spun Cotton Manufacturing",
     copy: "As an <a href=\"oversized-t-shirt-manufacturer\" style=\"color:var(--red)\">oversized t-shirt manufacturer</a> in Karachi, SHS specializes in producing washed oversized T-shirts with premium ring-spun cotton for a softer hand feel and longer garment life, serving modern streetwear brands. Our production includes acid wash, stone wash, mineral wash, garment wash, and tie-dye finishes, all available in low MOQs for growing fashion brands. Each wash creates its own unique character, allowing collections to stand apart in an increasingly competitive market." },
   { slug: "Fleece Sweatshirts", h1: "Fleece Sweatshirts Manufacturer in Karachi",
@@ -328,6 +328,7 @@ export async function onRequestGet(context) {
         <a href="portfolio" style="color:var(--red)" class="inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
         <div class="nav-dropdown-menu">
           <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
+          <a href="/custom-hoodie-manufacturer" class="nav-dropdown-link">Hoodies</a>
         </div>
       </div>
       <a href="services" class="hover:text-[var(--red)]">Services</a>
@@ -354,6 +355,7 @@ export async function onRequestGet(context) {
       </div>
       <div class="mobile-submenu">
         <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
+        <a href="/custom-hoodie-manufacturer">Hoodies</a>
       </div>
     </div>
     <a href="services" class="hover:text-[var(--red)]">Services</a>
