@@ -183,6 +183,7 @@ export async function onRequestGet(context) {
         <a href="portfolio" class="hover:text-[var(--red)] inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
         <div class="nav-dropdown-menu">
           <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
+          <a href="/custom-hoodie-manufacturer" class="nav-dropdown-link">Hoodies</a>
         </div>
       </div>
       <a href="services" class="hover:text-[var(--red)]">Services</a>
@@ -209,6 +210,7 @@ export async function onRequestGet(context) {
       </div>
       <div class="mobile-submenu">
         <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
+        <a href="/custom-hoodie-manufacturer">Hoodies</a>
       </div>
     </div>
     <a href="services" class="hover:text-[var(--red)]">Services</a>

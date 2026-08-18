@@ -1,24 +1,29 @@
-// functions/oversized-t-shirt-manufacturer.js
-// Serves /oversized-t-shirt-manufacturer — a dedicated landing page for oversized t-shirt
-// manufacturing. Like portfolio.js, this runs server-side on every request and bakes real
-// Airtable images (fetched by record ID) directly into the HTML response, so crawlers that
-// don't execute JavaScript see the full page on the first request.
+// functions/custom-hoodie-manufacturer.js
+// Serves /custom-hoodie-manufacturer — a dedicated landing page for custom hoodie
+// manufacturing. Like portfolio.js, this runs server-side on every request and pulls
+// real Airtable images live at request time (never hardcoded, since Airtable attachment
+// URLs are signed and expire), so crawlers that don't execute JavaScript see the full
+// page on the first request.
 
 const BASE_ID = "applLqc9DL2932xAm";
 const TABLE_ID = "tblJYQJfU5ywsci3D"; // Portfolio table
 
-// Record IDs pulled from the Portfolio table, placed at fixed points in the page copy below.
-const HERO_IMG = "recnNo9vG0Q5rTS3B";
-const FABRIC_IMG = "recp4as462DioTYLD";
-const MACHINERY_IMG = "recFeOcuycsQHPSbC";
-const SILHOUETTE_IMG = "reczE5P55r9DcahaT";
-const CLOSING_IMG = "recRytk4mKeBy5P59";
-const IMAGE_IDS = [HERO_IMG, FABRIC_IMG, MACHINERY_IMG, SILHOUETTE_IMG, CLOSING_IMG];
+// Record IDs for the 5 "Spray & Garment Washed Hoodies" category items (option id
+// selfDmxwlMwNfvLlb), fetched directly by ID at request time — same technique as
+// fetchImageRecords in oversized-t-shirt-manufacturer.js. Attachment URLs are signed and
+// expire, so only the stable record IDs are stored here, never the URLs themselves.
+const IMAGE_IDS = [
+  "recLlPGwWxib18ZlM", // Acid Dip Hoodies
+  "recfK8xKlIPEBnAY2", // Diesel Washed Hoodies
+  "recl3tql4nN1b6NrY", // Spray Hoodies
+  "recrnUHjhhASFbpEI", // Acid Washed Hoodie
+  "reczxg9jS6aZi9DFq"  // Tiger Print Washed Hoodie
+];
 
 function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-async function fetchImageRecords(token, ids) {
-  const results = {};
+async function fetchHoodieImages(token, ids) {
+  const results = [];
   await Promise.all(ids.map(async (id) => {
     try {
       const res = await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}/${id}`, {
@@ -29,26 +34,29 @@ async function fetchImageRecords(token, ids) {
       const f = data.fields;
       if (!f.Image || !f.Image.length) return;
       const thumb = f.Image[0].thumbnails?.large;
-      results[id] = {
+      results[ids.indexOf(id)] = {
         url: thumb?.url || f.Image[0].url,
         fullUrl: f.Image[0].url,
         width: thumb?.width || f.Image[0].width,
         height: thumb?.height || f.Image[0].height,
-        alt: f["Alt Text"] || "SHS Enterprises oversized t-shirt manufacturing"
+        alt: f["Alt Text"] || "SHS Enterprises custom hoodie manufacturing"
       };
     } catch (e) { /* skip this image — page still renders without it */ }
   }));
-  return results;
+  return results.filter(Boolean);
 }
 
-function renderContentImage(img) {
-  if (!img) return '';
-  return `
-    <div class="content-img-wrap my-10">
-      <div class="content-img" data-lightbox-url="${esc(img.fullUrl)}" data-lightbox-alt="${esc(img.alt)}">
-        <img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}>
-      </div>
-    </div>`;
+function renderFinishGrid(images) {
+  if (!images.length) {
+    return `<p class="muted leading-relaxed">New finish photos are added directly from our production floor — see the full gallery in the <a href="portfolio" style="color:var(--red)">Portfolio</a> in the meantime.</p>`;
+  }
+  return `<div class="finish-grid my-10">${images.map(img => `
+      <figure class="finish-item">
+        <div class="finish-img" data-lightbox-url="${esc(img.fullUrl)}" data-lightbox-alt="${esc(img.alt)}">
+          <img src="${img.url}" alt="${esc(img.alt)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')"${img.width && img.height ? ` width="${img.width}" height="${img.height}"` : ''}>
+        </div>
+        <figcaption class="finish-caption">${esc(img.alt)}</figcaption>
+      </figure>`).join('')}</div>`;
 }
 
 export async function onRequestGet(context) {
@@ -58,32 +66,34 @@ export async function onRequestGet(context) {
   if (cached) return cached;
 
   const token = context.env.AIRTABLE_TOKEN;
-  let images = {};
+  let images = [];
   let dataFetchOk = false;
 
   if (token) {
     try {
-      images = await fetchImageRecords(token, IMAGE_IDS);
+      images = await fetchHoodieImages(token, IMAGE_IDS);
       dataFetchOk = true;
     } catch (e) { /* fall through with no images — page still renders with copy */ }
   }
 
-  const ogImage = images[HERO_IMG]?.fullUrl || "https://www.shs-enterprises.com/assets/logo.png";
+  const ogImage = images[0]?.fullUrl || "https://www.shs-enterprises.com/assets/logo.png";
+  const title = "Custom Hoodie Manufacturer";
+  const description = "Low MOQ custom hoodie manufacturer for fashion brand. Pullover & kangaroo styles in acid wash, oil wash & spray finishes, Karachi, Pakistan, shipped worldwide.";
 
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oversized T-Shirt Manufacturer — Custom Fits for Streetwear & Fashion Brands</title>
-<meta name="description" content="Low-MOQ oversized t-shirt manufacturer working across basic, boxy, and graphic fits — heavy GSM cotton and French Terry, screen print and puff print finishing, sample-ready in days. Based in Karachi, Pakistan.">
-<link rel="canonical" href="https://www.shs-enterprises.com/oversized-t-shirt-manufacturer">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}">
+<link rel="canonical" href="https://www.shs-enterprises.com/custom-hoodie-manufacturer">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Oversized T-Shirt Manufacturer — Custom Fits for Streetwear & Fashion Brands">
-<meta property="og:description" content="Low-MOQ oversized t-shirt manufacturer working across basic, boxy, and graphic fits — heavy GSM cotton and French Terry, screen print and puff print finishing, sample-ready in days. Based in Karachi, Pakistan.">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
 <meta property="og:image" content="${ogImage}">
-<meta property="og:url" content="https://www.shs-enterprises.com/oversized-t-shirt-manufacturer">
+<meta property="og:url" content="https://www.shs-enterprises.com/custom-hoodie-manufacturer">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -94,11 +104,11 @@ export async function onRequestGet(context) {
 {
   "@context": "https://schema.org",
   "@type": "Service",
-  "serviceType": "Oversized T-Shirt Manufacturing",
+  "serviceType": "Custom Hoodie Manufacturing",
   "provider": { "@type": "Organization", "name": "SHS Enterprises", "url": "https://www.shs-enterprises.com" },
   "areaServed": "Worldwide",
-  "description": "Low-MOQ oversized t-shirt manufacturer working across basic, boxy, and graphic fits — heavy GSM cotton and French Terry, screen print and puff print finishing, sample-ready in days. Based in Karachi, Pakistan.",
-  "url": "https://www.shs-enterprises.com/oversized-t-shirt-manufacturer"
+  "description": "${esc(description)}",
+  "url": "https://www.shs-enterprises.com/custom-hoodie-manufacturer"
 }
 </script>
 <style>
@@ -116,6 +126,8 @@ export async function onRequestGet(context) {
   .nav-blur{backdrop-filter:blur(14px); background:rgba(250,250,250,0.85);}
   .btn-primary{ background:linear-gradient(135deg, var(--red), var(--red-deep)); color:var(--paper); border-radius:999px; padding:0.9rem 1.9rem; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.5rem; transition:all .35s ease; }
   .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -10px rgba(201,2,1,0.55); background:linear-gradient(135deg, var(--red-deep), var(--red)); }
+  .btn-secondary{ border:1px solid var(--line-dark); color:var(--paper); border-radius:999px; padding:0.9rem 1.9rem; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.5rem; transition:all .35s ease; }
+  .btn-secondary:hover{ border-color:var(--red); color:var(--red); }
   .wa-float{
     position:fixed; bottom:24px; right:24px; z-index:50;
     width:60px; height:60px; border-radius:50%;
@@ -139,6 +151,14 @@ export async function onRequestGet(context) {
   .content-img img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease, opacity .4s ease; opacity:0; }
   .content-img img.loaded{ opacity:1; }
   .content-img:hover img{ transform:scale(1.05); }
+
+  .finish-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:1.5rem; }
+  .finish-item{ display:flex; flex-direction:column; }
+  .finish-img{ aspect-ratio:4/5; border-radius:14px; overflow:hidden; background:var(--paper-dim); border:1px solid var(--line); cursor:zoom-in; }
+  .finish-img img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease, opacity .4s ease; opacity:0; }
+  .finish-img img.loaded{ opacity:1; }
+  .finish-img:hover img{ transform:scale(1.05); }
+  .finish-caption{ font-size:0.8rem; color:var(--stone); margin-top:0.65rem; text-align:center; }
 
   #lightbox{
     position:fixed; inset:0; z-index:200; background:rgba(10,10,10,0.92);
@@ -238,8 +258,8 @@ export async function onRequestGet(context) {
       <div class="nav-dropdown">
         <a href="portfolio" class="hover:text-[var(--red)] inline-flex items-center gap-1">Portfolio<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
         <div class="nav-dropdown-menu">
-          <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link" style="color:var(--red)">Oversized T-Shirts</a>
-          <a href="/custom-hoodie-manufacturer" class="nav-dropdown-link">Hoodies</a>
+          <a href="/oversized-t-shirt-manufacturer" class="nav-dropdown-link">Oversized T-Shirts</a>
+          <a href="/custom-hoodie-manufacturer" class="nav-dropdown-link" style="color:var(--red)">Hoodies</a>
         </div>
       </div>
       <a href="services" class="hover:text-[var(--red)]">Services</a>
@@ -265,8 +285,8 @@ export async function onRequestGet(context) {
         <button type="button" class="mobile-nav-toggle" aria-label="Toggle Portfolio submenu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
       <div class="mobile-submenu">
-        <a href="/oversized-t-shirt-manufacturer" style="color:var(--red)">Oversized T-Shirts</a>
-        <a href="/custom-hoodie-manufacturer">Hoodies</a>
+        <a href="/oversized-t-shirt-manufacturer">Oversized T-Shirts</a>
+        <a href="/custom-hoodie-manufacturer" style="color:var(--red)">Hoodies</a>
       </div>
     </div>
     <a href="services" class="hover:text-[var(--red)]">Services</a>
@@ -280,69 +300,72 @@ export async function onRequestGet(context) {
 
 <section class="pt-40 pb-16 px-6 md:px-10 navy-hero section-fade-bottom">
   <div class="max-w-4xl mx-auto">
-    <p class="eyebrow mb-5" style="color:var(--red)">Oversized T-Shirt Manufacturer</p>
-    <h1 class="font-display text-4xl md:text-6xl leading-tight mb-6">Oversized T-Shirt Manufacturer — Built for Brands That Actually Wear the Fit</h1>
-    <p class="text-lg muted leading-relaxed mb-6">An oversized t-shirt is deceptively simple to say and genuinely difficult to manufacture well. The drape, the shoulder drop, the way the fabric sits without collapsing into shapelessness — that's construction, not just cutting a bigger pattern. SHS Enterprises manufactures oversized t-shirts across basic, boxy, graphic, and drop-shoulder silhouettes for streetwear and fashion labels working in low-MOQ production, based in Karachi, Pakistan, and shipping to brands worldwide.</p>
-    <p class="text-lg muted leading-relaxed">We don't treat "oversized" as one fixed spec. A brand launching a summer essentials drop needs a completely different fabric weight than a brand building a statement graphic piece meant to anchor a collection — and we build to that difference deliberately, not by offering one blank silhouette and hoping it fits every use case.</p>
+    <p class="eyebrow mb-5" style="color:var(--red)">Custom Hoodie Manufacturer</p>
+    <h1 class="font-display text-4xl md:text-6xl leading-tight mb-6">Custom Hoodie Manufacturer — Spray-Dyed, Garment-Washed, Built the Way You Actually Designed It</h1>
+    <p class="text-lg muted leading-relaxed mb-6">Most hoodie manufacturers hand you back a plain pullover in whatever color you picked from a swatch card. We build the finish into the garment — acid dip, diesel wash, spray application, tiger print — the techniques that make a hoodie look like a product, not a blank. Based in Karachi, Pakistan, working with fashion and streetwear brands worldwide, starting at 50 pieces per style.</p>
+    <p class="text-lg muted leading-relaxed mb-10">Every order includes free trend analysis, pricing strategy, and launch support — we stay involved after the samples ship, not just before.</p>
+    <div class="flex flex-wrap gap-4">
+      <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" class="btn-primary">Schedule a Meeting</a>
+      <a href="portfolio" class="btn-secondary">See the Portfolio</a>
+    </div>
   </div>
 </section>
 
 <div class="px-6 md:px-10">
   <div class="max-w-4xl mx-auto py-4">
 
-    ${renderContentImage(images[HERO_IMG])}
-
     <section class="py-10 md:py-14">
-      <h2 class="font-display text-3xl md:text-4xl mb-6">Fabric and GSM, Matched to What You're Actually Launching</h2>
-      <p class="muted leading-relaxed mb-4">For summer essentials — the kind of piece meant to move fast, at volume, at accessible pricing — we work in cotton single jersey or a PC (poly-cotton) mix, typically landing between 150 and 170 GSM. Light enough to breathe, still holding structure through repeated washing.</p>
-      <p class="muted leading-relaxed mb-4">Once a brand moves into fashion or a more unique garment vertical — pieces meant to carry a screen print or a heavier embroidery panel — we push into PC Interlock or French Terry, generally in the 180 to 220 GSM range. That extra weight matters here: a heavy print on a light fabric distorts and cracks faster than the same print on something built to carry it.</p>
-      <p class="muted leading-relaxed mb-4">And when something genuinely ambitious lands on our table — a full tech pack, a considered design, a brand that wants a flagship piece — we take that development into premium French Terry fabric running up to 280 GSM. That's the extraordinary end of what we build, and we treat it that way in production, not as a standard SKU.</p>
-      <p class="muted leading-relaxed">We also manufacture well beyond that range on custom demand. Our studio currently has a 300+ GSM Scuba fabric oversized tee on display — heavier than most manufacturers will even quote — and it's there for any visiting brand to see and hold, not just described in a spec sheet.</p>
+      <h2 class="font-display text-3xl md:text-4xl mb-6">Acid Dip, Diesel Wash, Spray Finish — Real Techniques, Not Just Plain Fleece</h2>
+      <p class="muted leading-relaxed mb-6">Anyone can sew a hoodie. Finishing is where the actual craft is, and it's where most low-MOQ manufacturers quietly cut corners because wash and spray processes are harder to control at small batch sizes. This is what we've actually put into production:</p>
+      <ul class="space-y-4 muted leading-relaxed mb-4">
+        <li><strong style="color:var(--ink)">Acid Dip</strong> — a lilac/purple acid-dip hoodie, sampled internally in 2025. Controlled acid treatment for a faded, mottled colorway that reads intentional, not accidental.</li>
+        <li><strong style="color:var(--ink)">Diesel Wash</strong> — a gray diesel-washed hoodie produced for WB Buying House (2023). A heavier, more textured wash finish with visible tonal variation.</li>
+        <li><strong style="color:var(--ink)">Spray Finish</strong> — a dark hoodie with speckled spray detailing, produced for Firangi Kapra (2025). Hand-applied spray work for graduated or speckled color effects that can't be replicated with a solid dye lot.</li>
+        <li><strong style="color:var(--ink)">Acid Wash</strong> — produced for GenZ Drip (2025). A cleaner, more classic acid-wash treatment.</li>
+        <li><strong style="color:var(--ink)">Tiger Print Wash</strong> — a tiger-print garment-washed hoodie, internal sampling, 2025. Pattern-driven wash work layered on top of garment dyeing.</li>
+      </ul>
+
+      ${renderFinishGrid(images)}
+
+      <p class="muted leading-relaxed"><a href="portfolio" style="color:var(--red)">See more finishes in the full Portfolio →</a></p>
     </section>
 
-    ${renderContentImage(images[FABRIC_IMG])}
+    <section class="py-10 md:py-14">
+      <h2 class="font-display text-3xl md:text-4xl mb-6">Fabric Weight Matched to the Finish</h2>
+      <p class="muted leading-relaxed mb-4">Wash treatment changes what a fabric needs to hold up, so we don't run one blanket GSM across every hoodie style:</p>
+      <ul class="space-y-3 muted leading-relaxed">
+        <li><strong style="color:var(--ink)">Standard/blank hoodies:</strong> 280–300 GSM.</li>
+        <li><strong style="color:var(--ink)">Washed finishes</strong> (diesel wash, acid wash, garment wash, tiger print wash): 320–350 GSM — the heavier weight holds up to the wash process without losing shape.</li>
+        <li><strong style="color:var(--ink)">Fully customized designs:</strong> we don't stop at these ranges — on customized demand, we'll go over 400 GSM to match the design.</li>
+      </ul>
+    </section>
 
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">Real Machinery, Not a Generic Claim</h2>
-      <p class="muted leading-relaxed">Oversized construction lives or dies at the seams. Our floor runs on Juki single-needle lockstitch machines for main seaming, Siruba overlock machines for edge finishing that won't fray under wash stress, Jack flatlock machines for the coverstitch hemming that keeps a drop-shoulder tee lying flat instead of curling, and dedicated Kansai Special feed-off-the-arm machines for chain-stitch detailing on heavier panels. This isn't a stock list — it's genuinely what's on our production floor, and it's why the drape holds after twenty washes, not just in the first photoshoot.</p>
+      <p class="muted leading-relaxed">The same production floor that builds our tees builds our hoodies — Juki single-needle lockstitch for main seaming, Siruba overlock for edge finishing, Jack flatlock for coverstitch hemming and drawstring casings, and Kansai Special for chain-stitch detailing on kangaroo pockets and hood panels. This is what's actually on our floor, not a stock description.</p>
     </section>
-
-    ${renderContentImage(images[MACHINERY_IMG])}
 
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">Sourced From the Same Fabric Mills as the Names You Already Know</h2>
-      <p class="muted leading-relaxed">The fabric behind every SHS oversized tee comes from OEKO-TEX certified mills that also supply production runs for global names like DKNY, ZARA, Volcom, and Spider. That's not a small distinction — OEKO-TEX certification means every roll has been independently tested and cleared of harmful substances, at a standard those brands won't manufacture without. When we build for you, you're working with the same raw material tier the industry's biggest names demand, regardless of your order size.</p>
+      <p class="muted leading-relaxed mb-4">Our fleece and terry stock comes from OEKO-TEX certified mills that also supply brands like DKNY, ZARA, Volcom, and Spider. Order 50 pieces or 5,000 — it's the same raw material tier either way.</p>
+      <p class="muted leading-relaxed"><a href="services" style="color:var(--red)">See our full manufacturing process →</a></p>
     </section>
 
     <section class="py-10 md:py-14">
-      <h2 class="font-display text-3xl md:text-4xl mb-6">Every Silhouette, Not Just One Fit</h2>
-      <p class="muted leading-relaxed mb-4">"Oversized" isn't a single silhouette in our production line — it's a category. We build basic tees for everyday essentials, boxy and drop-shoulder cuts for streetwear-first labels, graphic-forward pieces designed around a print or embroidery placement, and long-sleeve and pocket-tee variations for brands extending a core style into a fuller range.</p>
-      <p class="muted leading-relaxed">We also manufacture raglan and baseball-style panel construction, V-neck and scoop-neck finishes for brands working outside the standard crew, muscle-fit and tank silhouettes for activewear-adjacent labels, and Henley and polo constructions when a brand wants structure without going fully tailored. Browse examples of these exact builds — and everything else we manufacture — in our full <a href="portfolio" style="color:var(--red)">portfolio</a>.</p>
-    </section>
-
-    ${renderContentImage(images[SILHOUETTE_IMG])}
-
-    <section class="py-10 md:py-14">
-      <h2 class="font-display text-3xl md:text-4xl mb-6">Sample Turnaround and What Slows It Down</h2>
-      <p class="muted leading-relaxed">For an oversized t-shirt specifically, our sample turnaround runs 5 to 10 days, depending on the article's demand at the time. Pieces with heavier value-added customization — multi-placement embroidery, complex puff print layering, custom wash treatments — will genuinely take longer than that window, and we tell you upfront rather than let a deadline slip quietly.</p>
-    </section>
-
-    <section class="py-10 md:py-14">
-      <h2 class="font-display text-3xl md:text-4xl mb-6">MOQ Built for Brands Starting Out, Not Just Established Ones</h2>
-      <p class="muted leading-relaxed">Our standard minimum order is 50 to 60 pieces — low enough that a first-time founder can test a real design in the real market without committing capital meant for six months of runway. For brands that build a genuine, ongoing relationship with us, our Promise to Success program extends even lower minimums over time, because the goal was never a single transaction — it's a brand that keeps coming back because the first order actually worked.</p>
+      <h2 class="font-display text-3xl md:text-4xl mb-6">Sample Turnaround and MOQ Built for Brands Starting Out</h2>
+      <p class="muted leading-relaxed mb-4">Standard hoodies typically sample in 5–10 days; wash and spray finishes can add time since they're applied and checked in batches, not rushed. We'll always tell you upfront if a finish is going to push the timeline.</p>
+      <p class="muted leading-relaxed">MOQ starts at 50–60 pieces per style, and our Promise to Success program lowers minimums further for brands that come back for repeat runs — this isn't just for brands that already have scale, it's built for the first order too.</p>
     </section>
 
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">Who This Is Actually Built For</h2>
-      <p class="muted leading-relaxed">If you're a low-MOQ streetwear manufacturer search away from finding your production partner, or you're comparing us against options in private label clothing and custom apparel manufacturing in Karachi, this is the exact gap we were built to close. We work with startup clothing labels placing their first order and established small batch clothing brands scaling a proven line. For brands specifically looking at clothing manufacturing countries other than China — whether for cost, lead time, or simply wanting a manufacturing partner that isn't juggling a thousand other accounts — Pakistan, and SHS specifically, is a genuine, capable option.</p>
+      <p class="muted leading-relaxed">Streetwear and fashion labels that want a hoodie with an actual finish, not a blank — first-time founders testing a drop before committing to bulk, small-batch brands who need real photos and real production behind them, and anyone looking for a non-China manufacturing option without giving up quality or MOQ flexibility. Karachi-based, shipping worldwide.</p>
     </section>
 
     <section class="py-10 md:py-14">
       <h2 class="font-display text-3xl md:text-4xl mb-6">See It, Don't Just Read About It</h2>
-
-      ${renderContentImage(images[CLOSING_IMG])}
-
-      <p class="muted leading-relaxed">Every claim above is something you can verify in person. Schedule a visit or a strategy call on <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" style="color:var(--red)">Calendly</a>, walk our floor, hold the 300 GSM Scuba sample yourself. Follow the day-to-day production on <a href="https://www.instagram.com/shs.clothingmanufacturers/" target="_blank" rel="noopener" style="color:var(--red)">Instagram</a>, or find us directly — SHS Enterprises, Karachi, Pakistan. Curious what else we manufacture beyond t-shirts? See the full range of <a href="services" style="color:var(--red)">services</a> we offer alongside production.</p>
+      <p class="muted leading-relaxed mb-4">Come see the wash and spray process in person, or follow along online — we document real production, not stock photography. Follow the day-to-day floor work on <a href="https://www.instagram.com/shs.clothingmanufacturers/" target="_blank" rel="noopener" style="color:var(--red)">Instagram</a> and our <a href="https://pk.linkedin.com/company/shs-enterprises-apparel-manufacturing" target="_blank" rel="noopener" style="color:var(--red)">LinkedIn</a> company page, or come verify it yourself — SHS Enterprises, Karachi, Pakistan.</p>
+      <p class="muted leading-relaxed">Explore the full <a href="portfolio" style="color:var(--red)">Portfolio →</a>. Have a question or want to drop an inquiry? <a href="contact" style="color:var(--red)">Get in touch →</a> — our contact page has the form and our location. Also manufacturing oversized tees? <a href="/oversized-t-shirt-manufacturer" style="color:var(--red)">See our tee capabilities →</a>. See our <a href="services" style="color:var(--red)">full services →</a>, or <a href="https://calendly.com/shs-enterprises-pk/discussion-meeting/" target="_blank" rel="noopener" style="color:var(--red)">schedule a visit or strategy call</a>.</p>
     </section>
 
   </div>
@@ -403,7 +426,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const numberB = "923032134366";
   const useA = (karachiHour >= 10) || (karachiHour < 1);
   const number = useA ? numberA : numberB;
-  const msg = encodeURIComponent("Hi SHS Enterprises, I'm interested in learning more about your oversized t-shirt manufacturing.");
+  const msg = encodeURIComponent("Hi SHS Enterprises, I'm interested in learning more about your custom hoodie manufacturing.");
   document.getElementById('waFloat').href = \`https://wa.me/\${number}?text=\${msg}\`;
 })();
 
@@ -415,7 +438,7 @@ function openLightbox(url, alt){
   document.body.style.overflow = 'hidden';
 }
 document.addEventListener('click', (e) => {
-  const trigger = e.target.closest('.content-img[data-lightbox-url]');
+  const trigger = e.target.closest('[data-lightbox-url]');
   if (trigger) openLightbox(trigger.dataset.lightboxUrl, trigger.dataset.lightboxAlt);
 });
 function closeLightbox(){
